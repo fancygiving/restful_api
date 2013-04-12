@@ -12,6 +12,18 @@ describe RestfulApi do
     }.to change(Partner, :count).by(1)
   end
 
+  it 'returns an attributes hash' do
+    expect(api.read(1)).to be_a Hash
+  end
+
+  it 'returns a collection of attribute hashes' do
+    expect(api.read(:all).first).to be_a Hash
+  end
+
+  it 'reads partner attributes' do
+    expect(api.read(1)[:name]).to eq(Partner.get(1).name)
+  end
+
   it 'reads a partner object as json' do
     expect(load_json(api.json(1))[:name]).to eq(Partner.get(1).name)
   end

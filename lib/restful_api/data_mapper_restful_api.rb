@@ -4,29 +4,36 @@ class DataMapperRestfulApi < RestfulApi
   end
 
   def update(id, attrs)
-    read_id(id).update(attrs)
+    get(id).update(attrs)
   end
 
   def destroy(id)
-    read_id(id).destroy
+    get(id).destroy
   end
 
   private
 
   def read_all
-    resource.all
+    resource.all.to_a.map(&:attributes)
   end
 
   def read_first
-    resource.first
+    try_attributes(resource.first)
   end
 
   def read_last
-    resource.last
+    try_attributes(resource.last)
   end
 
   def read_id(id)
-    resource.get(id)
+    try_attributes(get(id))
   end
 
+  def try_attributes(instance)
+    instance && instance.attributes
+  end
+
+  def get(id)
+    resource.get(id)
+  end
 end
