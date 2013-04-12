@@ -49,8 +49,4 @@ class MockModel
     Hash[attributes.sort]
   end
 
-  def to_json(options)
-    MultiJson.dump(to_h)
-  end
-
 end

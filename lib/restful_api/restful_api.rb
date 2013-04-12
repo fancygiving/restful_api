@@ -10,7 +10,7 @@ class RestfulApi
   def create(attrs)
   end
 
-  def read(id)
+  def read(id, options={})
     if id == :all
       read_all
     elsif id == :first

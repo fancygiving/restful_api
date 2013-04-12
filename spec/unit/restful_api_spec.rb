@@ -15,21 +15,21 @@ describe RestfulApi do
   describe 'CRUD interface' do
 
     it 'fetches an instance of the resource' do
-      expect(api.read(1).to_h).to eq({id: 1, name: 'Dave'})
+      expect(api.read(1)).to eq({id: 1, name: 'Dave'})
     end
 
     it 'fetches all instances of the resource' do
-      expect(api.read(:all).map(&:to_h)).to eq([{id: 1, name: 'Dave'}, {id: 2, name: 'Serina'}])
+      expect(api.read(:all)).to eq([{id: 1, name: 'Dave'}, {id: 2, name: 'Serina'}])
     end
 
     it 'creates a new item' do
       api.create({name: 'Sarah'})
-      expect(api.read(:last).to_h).to eq({id: 3, name: 'Sarah'})
+      expect(api.read(:last)).to eq({id: 3, name: 'Sarah'})
     end
 
     it 'updates an item in the collection' do
       api.update(2, {name: 'Alan'})
-      expect(api.read(2).name).to eq('Alan')
+      expect(api.read(2)[:name]).to eq('Alan')
     end
 
     it 'destroys an item from the collection' do
