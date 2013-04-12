@@ -10,8 +10,9 @@ class DataMapperRestfulApi < RestfulApi
   end
 
   def destroy(id)
+    attrs = read(id)
     get(id).destroy
-    read(id)
+    attrs
   end
 
   private

@@ -44,4 +44,9 @@ describe RestfulApi do
     }.to change(Partner, :count).by(-1)
   end
 
+  it 'returns the attributes of the object which has just been destroyed' do
+    partner = Partner.last
+    expect(api.destroy(partner.id)).to eq(partner.attributes)
+  end
+
 end
