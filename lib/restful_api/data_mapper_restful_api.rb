@@ -1,14 +1,17 @@
 class DataMapperRestfulApi < RestfulApi
   def create(attrs)
-    resource.create(attrs)
+    instance = resource.create(attrs)
+    try_attributes(instance)
   end
 
   def update(id, attrs)
     get(id).update(attrs)
+    read(id)
   end
 
   def destroy(id)
     get(id).destroy
+    read(id)
   end
 
   private
