@@ -4,7 +4,7 @@ class MockModelRestfulApi < RestfulApi
   end
 
   def update(id, attrs)
-    get(id).update(attrs)
+    get_id(id).update(attrs)
   end
 
   def destroy(id)
@@ -13,23 +13,23 @@ class MockModelRestfulApi < RestfulApi
 
   private
 
-  def read_all
-    resource.all.map(&:to_h)
+  def to_hash(instance)
+    instance && instance.to_h
   end
 
-  def read_first
-    read_all.first
+  def get_all
+    resource.all
   end
 
-  def read_last
-    read_all.last
+  def get_first
+    get_all.first
   end
 
-  def read_id(id)
-    get(id) && get(id).to_h
+  def get_last
+    get_all.last
   end
 
-  def get(id)
+  def get_id(id)
     resource.get(id)
   end
 

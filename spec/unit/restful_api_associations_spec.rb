@@ -1,5 +1,6 @@
 require_relative '../../lib/restful_api'
 require_relative '../support/mock_model'
+require_relative '../support/mock_model_restful_api'
 
 class Item < MockModel
   def list
@@ -26,7 +27,8 @@ describe 'RestfulApi associations' do
   end
 
   it 'returns an associated model' do
-    list_api.read(1, include: :item)
+    items = list_api.read(1, include: [:items])[:items]
+    expect(items).to eq([{id: 1, name: 'Screwdriver'}])
   end
 
 end

@@ -13,12 +13,8 @@ class RestfulApi
   def read(id, options={})
     if id == :all
       read_all
-    elsif id == :first
-      read_first
-    elsif id == :last
-      read_last
     else
-      read_id(id)
+      read_instance(id)
     end
   end
 
@@ -35,15 +31,36 @@ class RestfulApi
   private
 
   def read_all
+    get_all.map { |i| to_hash(i) }
   end
 
-  def read_first
+  def read_instance(id)
+    to_hash(get_instance(id))
   end
 
-  def read_last
+  def get_instance(id)
+    if id == :first
+      get_first
+    elsif id == :last
+      get_last
+    else
+      get_id(id)
+    end
   end
 
-  def read_id(id)
+  def get_all
+  end
+
+  def get_first
+  end
+
+  def get_last
+  end
+
+  def get_id(id)
+  end
+
+  def to_hash(instance)
   end
 
 end
