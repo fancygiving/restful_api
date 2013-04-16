@@ -5,6 +5,7 @@ require_relative '../../lib/restful_api'
 describe RestfulApi do
 
   let(:api) { DataMapperRestfulApi.new(Partner) }
+  let(:partner) { Partner.get(1) }
 
   it 'creates a new partner object' do
     expect {
@@ -21,12 +22,18 @@ describe RestfulApi do
   end
 
   it 'returns a collection with given conditions' do
-    partner = Partner.get(1)
-    expect(api.read(name: partner.name)).to eq([partner.attributes])
+    expect(api.read(name: partner.name)).to eq([partner.attributes.stringify_keys])
+  end
+
+  it 'returns a collection with conditions and includes' do
+    conditions  = { name: partner.name }
+    options     = { include: :brands }
+    brands      = partner.brands.to_a.map(&:attributes).map(&:stringify_keys)
+    expect(api.read(conditions, options)).to eq([partner.attributes.stringify_keys.merge('brands' => brands)])
   end
 
   it 'reads partner attributes' do
-    expect(api.read(1)[:name]).to eq(Partner.get(1).name)
+    expect(api.read(1)['name']).to eq(Partner.get(1).name)
   end
 
   it 'reads a partner object as json' do
@@ -51,7 +58,7 @@ describe RestfulApi do
 
   it 'returns the attributes of the object which has just been destroyed' do
     partner = Partner.last
-    expect(api.destroy(partner.id)).to eq(partner.attributes)
+    expect(api.destroy(partner.id)).to eq(partner.attributes.stringify_keys)
   end
 
 end

@@ -18,7 +18,7 @@ class DataMapperRestfulApi < RestfulApi::Base
   private
 
   def to_hash(instance)
-    instance && instance.attributes.symbolize_keys
+    instance && instance.attributes.stringify_keys
   end
 
   def get_all
