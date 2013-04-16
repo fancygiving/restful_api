@@ -19,7 +19,7 @@ describe RestfulApi do
     end
 
     it 'fetches all instances of the resource' do
-      expect(api.read(:all)).to eq([dave.attributes, serina.attributes])
+      expect(api.read(:all)).to include(dave.attributes, serina.attributes)
     end
 
     it 'fetches all instances with given conditions' do
@@ -39,18 +39,6 @@ describe RestfulApi do
     it 'destroys an item from the collection' do
       api.destroy(serina.id)
       expect(api.read(serina.id)).to eq(nil)
-    end
-
-  end
-
-  describe 'return as JSON' do
-
-    it 'returns an instance as json' do
-      expect(api.json(dave.id)).to eq('{"id":' + dave.id.to_s + ',"name":"Dave"}')
-    end
-
-    it 'returns a collection as json' do
-      expect(api.json(:all)).to match('{"id":' + dave.id.to_s + ',"name":"Dave"}')
     end
 
   end

@@ -1,14 +1,18 @@
 class MockModelRestfulApi < RestfulApi::Base
   def create(attrs)
-    resource.create(attrs)
+    instance = resource.create(attrs)
+    to_hash(instance)
   end
 
   def update(id, attrs)
     get_id(id).update_attributes(attrs)
+    read(id)
   end
 
   def destroy(id)
+    attrs = read(id)
     get_id(id).destroy
+    attrs
   end
 
   private

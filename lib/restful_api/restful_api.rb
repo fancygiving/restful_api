@@ -1,5 +1,3 @@
-require 'multi_json'
-
 module RestfulApi
   class Base
     attr_reader :resource
@@ -33,10 +31,6 @@ module RestfulApi
     end
 
     def destroy(id)
-    end
-
-    def json(id)
-      MultiJson.dump(read(id))
     end
 
     private
