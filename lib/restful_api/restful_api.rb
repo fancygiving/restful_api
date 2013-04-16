@@ -42,7 +42,7 @@ module RestfulApi
     private
 
     def read_all(options={})
-      read_collection(get_all)
+      read_collection(get_all, options)
     end
 
     def read_where(conditions, options={})

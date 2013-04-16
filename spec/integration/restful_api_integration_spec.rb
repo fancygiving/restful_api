@@ -4,6 +4,11 @@ require_relative '../../lib/restful_api'
 
 describe RestfulApi do
 
+  def partner_attributes_with_brands(partner)
+    brands = partner.brands.to_a.map(&:attributes).map(&:stringify_keys)
+    partner.attributes.stringify_keys.merge('brands' => brands)
+  end
+
   let(:api) { DataMapperRestfulApi.new(Partner) }
   let(:partner) { Partner.get(1) }
 
@@ -25,11 +30,16 @@ describe RestfulApi do
     expect(api.read(name: partner.name)).to eq([partner.attributes.stringify_keys])
   end
 
+  it 'returns a collection with nested includes' do
+    expected_results = Partner.all.to_a.map do |partner|
+      partner_attributes_with_brands(partner)
+    end
+    expect(api.read(:all, include: :brands)).to eq(expected_results)
+  end
+
   it 'returns a collection with conditions and includes' do
-    conditions  = { name: partner.name }
-    options     = { include: :brands }
-    brands      = partner.brands.to_a.map(&:attributes).map(&:stringify_keys)
-    expect(api.read(conditions, options)).to eq([partner.attributes.stringify_keys.merge('brands' => brands)])
+    expect(api.read({ name: partner.name }, { include: :brands }))
+      .to eq([partner_attributes_with_brands(partner)])
   end
 
   it 'reads partner attributes' do
