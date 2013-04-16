@@ -3,15 +3,16 @@ require_relative '../support/mock_model'
 require_relative '../support/mock_model_restful_api'
 
 class Item < MockModel
-  def list
-    List.read(attributes[:list_id])
-  end
+  belongs_to :list
+  belongs_to :owner
+end
+
+class Owner < MockModel
+  has_many :items
 end
 
 class List < MockModel
-  def items
-    Item.read(:all).select { |item| item.list_id == id }
-  end
+  has_many :items
 end
 
 describe 'RestfulApi associations' do
@@ -19,16 +20,37 @@ describe 'RestfulApi associations' do
   let(:list_api) { MockModelRestfulApi.new(List) }
   let(:item_api) { MockModelRestfulApi.new(Item) }
 
+  attr_reader :list, :item, :owner
   before do
-    List.reset!
-    Item.reset!
-    List.create(name: 'Tools')
-    Item.create(name: 'Screwdriver', list_id: 1)
+    @list   = List.create(name: 'Tools')
+    @owner  = Owner.create(name: 'Owen')
+    @item   = Item.create(name: 'Screwdriver',
+                          list_id: list.id,
+                          owner_id: owner.id)
   end
 
-  it 'returns an associated model' do
-    items = list_api.read(1, include: [:items])[:items]
-    expect(items).to eq([{id: 1, name: 'Screwdriver'}])
+  it 'can read an arbitrary collection' do
+    items = item_api.read_collection(list.items)
+    expect(items).to eq([item.attributes])
   end
+
+  it 'returns an associated collection' do
+    items = list_api.read(list.id, include: [:items])[:items]
+    expect(items).to eq([item.attributes])
+  end
+
+  it 'returns an associated instance' do
+    item_list = item_api.read(item.id, include: [:list])[:list]
+    expect(item_list).to eq(list.attributes)
+  end
+
+  it 'returns multiple associated instances' do
+    results = item_api.read(item.id, include: [:list, :owner])
+    expect(results[:list]).to eq(list.attributes)
+    expect(results[:owner]).to eq(owner.attributes)
+  end
+
+  it 'returns collections with associations'
+  it 'returns nested associations'
 
 end

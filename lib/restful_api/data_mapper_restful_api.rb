@@ -1,4 +1,4 @@
-class DataMapperRestfulApi < RestfulApi
+class DataMapperRestfulApi < RestfulApi::Base
   def create(attrs)
     instance = resource.create(attrs)
     to_hash(instance)

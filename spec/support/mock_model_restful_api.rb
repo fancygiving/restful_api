@@ -1,14 +1,14 @@
-class MockModelRestfulApi < RestfulApi
+class MockModelRestfulApi < RestfulApi::Base
   def create(attrs)
     resource.create(attrs)
   end
 
   def update(id, attrs)
-    get_id(id).update(attrs)
+    get_id(id).update_attributes(attrs)
   end
 
   def destroy(id)
-    resource.delete(id)
+    get_id(id).destroy
   end
 
   private
@@ -30,7 +30,9 @@ class MockModelRestfulApi < RestfulApi
   end
 
   def get_id(id)
-    resource.get(id)
+    resource.find(id)
+  rescue SuperModel::UnknownRecord
+    nil
   end
 
 end
