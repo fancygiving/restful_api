@@ -14,7 +14,7 @@ class MockModelRestfulApi < RestfulApi::Base
   private
 
   def to_hash(instance)
-    instance && instance.to_h
+    instance && instance.to_h.stringify_keys
   end
 
   def get_all

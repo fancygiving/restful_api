@@ -35,22 +35,30 @@ describe 'RestfulApi associations' do
   end
 
   it 'returns an associated collection' do
-    items = list_api.read(list.id, include: [:items])[:items]
+    items = list_api.read(list.id, include: [:items])['items']
     expect(items).to eq([item.attributes])
   end
 
   it 'returns an associated instance' do
-    item_list = item_api.read(item.id, include: [:list])[:list]
+    item_list = item_api.read(item.id, include: [:list])['list']
     expect(item_list).to eq(list.attributes)
   end
 
   it 'returns multiple associated instances' do
     results = item_api.read(item.id, include: [:list, :owner])
-    expect(results[:list]).to eq(list.attributes)
-    expect(results[:owner]).to eq(owner.attributes)
+    expect(results['list']).to eq(list.attributes)
+    expect(results['owner']).to eq(owner.attributes)
   end
 
-  it 'returns collections with associations'
-  it 'returns nested associations'
+  it 'returns associated collections' do
+    results = list_api.read(list.id, include: :items)
+    expect(results['items']).to eq([item.attributes])
+  end
+
+  it 'returns nested associations' do
+    results = list_api.read(list.id, include: [{items: {include: :owner}}])
+    item_with_owner = item.attributes.merge(owner: owner.attributes)
+    expect(results['items']).to eq([item_with_owner])
+  end
 
 end
