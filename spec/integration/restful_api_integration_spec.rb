@@ -72,7 +72,7 @@ describe RestfulApi do
   end
 
   it 'updates a partner in the database' do
-    partner = Partner.first
+    partner = Partner.create!(name: 'Brian')
     api.update(partner.id, name: "WoopWoopEternalRainClouds")
     expect(Partner.first.name).to eq("WoopWoopEternalRainClouds")
   end
