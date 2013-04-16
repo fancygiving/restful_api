@@ -1,6 +1,17 @@
 require_relative 'integration_helper'
 require_relative '../../models/init'
 require_relative '../../lib/restful_api'
+require_relative '../../lib/virtual_properties'
+
+class Partner
+  include VirtualProperties
+
+  virtual_properties :name_with_id
+
+  def name_with_id
+    "#{id}|#{name}"
+  end
+end
 
 describe RestfulApi do
 
@@ -27,7 +38,13 @@ describe RestfulApi do
   end
 
   it 'returns a collection with given conditions' do
-    expect(api.read(name: partner.name)).to eq([partner.attributes.stringify_keys])
+    expect(api.read(name: partner.name))
+      .to eq([partner.attributes.stringify_keys])
+  end
+
+  it 'returns a collection with virtual conditions' do
+    expect(api.read(name_with_id: partner.name_with_id))
+      .to eq([partner.attributes.stringify_keys])
   end
 
   it 'returns a collection with nested includes' do

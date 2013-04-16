@@ -26,7 +26,7 @@ class DataMapperRestfulApi < RestfulApi::Base
   end
 
   def get_where(conditions)
-    resource.all(conditions).to_a
+    resource.all_with_virtual(conditions).to_a
   end
 
   def get_first
