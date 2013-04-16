@@ -12,7 +12,9 @@ module RestfulApi
     end
 
     def read(id, options={})
-      if id == :all
+      if id.is_a? Hash
+        read_where(id)
+      elsif id == :all
         read_all
       else
         read_instance(id, options)
@@ -41,6 +43,10 @@ module RestfulApi
 
     def read_all
       read_collection(get_all)
+    end
+
+    def read_where(conditions)
+      read_collection(get_where(conditions))
     end
 
     def get_instance(id)

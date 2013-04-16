@@ -21,6 +21,18 @@ class MockModelRestfulApi < RestfulApi::Base
     resource.all
   end
 
+  def get_where(conditions)
+    collection = get_all
+
+    conditions.each do |k, v|
+      collection.select! do |instance|
+        instance.send(k) == v
+      end
+    end
+
+    collection
+  end
+
   def get_first
     get_all.first
   end

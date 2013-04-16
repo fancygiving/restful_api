@@ -22,6 +22,10 @@ describe RestfulApi do
       expect(api.read(:all)).to eq([dave.attributes, serina.attributes])
     end
 
+    it 'fetches all instances with given conditions' do
+      expect(api.read(name: 'Dave')).to eq([dave.attributes])
+    end
+
     it 'creates a new item' do
       api.create({name: 'Sarah'})
       expect(api.read(:last)['name']).to eq('Sarah')

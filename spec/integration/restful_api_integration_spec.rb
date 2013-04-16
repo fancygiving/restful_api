@@ -20,6 +20,11 @@ describe RestfulApi do
     expect(api.read(:all).first).to be_a Hash
   end
 
+  it 'returns a collection with given conditions' do
+    partner = Partner.get(1)
+    expect(api.read(name: partner.name)).to eq([partner.attributes])
+  end
+
   it 'reads partner attributes' do
     expect(api.read(1)[:name]).to eq(Partner.get(1).name)
   end

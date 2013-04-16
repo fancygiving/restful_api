@@ -25,6 +25,10 @@ class DataMapperRestfulApi < RestfulApi::Base
     resource.all.to_a
   end
 
+  def get_where(conditions)
+    resource.all(conditions).to_a
+  end
+
   def get_first
     resource.first
   end
