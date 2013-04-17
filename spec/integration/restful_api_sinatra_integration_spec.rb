@@ -20,6 +20,10 @@ class App < Sinatra::Base
 
   set :environment, :production
 
+  post '/api/v1/resources' do
+    JsonRestfulApi.new(Resource).create(request.body.read)
+  end
+
   get '/api/v1/resources/:id' do
     JsonRestfulApi.new(Resource).read(params[:id])
   end
@@ -28,8 +32,12 @@ class App < Sinatra::Base
     JsonRestfulApi.new(Resource).read(:all)
   end
 
-  post '/api/v1/resources' do
-    JsonRestfulApi.new(Resource).create(request.body.read)
+  put '/api/v1/resources/:id' do
+    JsonRestfulApi.new(Resource).update(params[:id], request.body.read)
+  end
+
+  delete '/api/v1/resources/:id' do
+    JsonRestfulApi.new(Resource).destroy(params[:id])
   end
 
   error do
@@ -59,9 +67,9 @@ describe App do
   end
 
   it 'reads a resource' do
-    resource = Resource.create(name: 'Barry')
-    get "api/v1/resources/#{resource.id}"
-    expect(response_body).to eq(resource.attributes)
+    barry = Resource.create(name: 'Barry')
+    get "api/v1/resources/#{barry.id}"
+    expect(response_body).to eq(barry.attributes)
   end
 
   it 'reads a collection of resources' do
@@ -72,7 +80,18 @@ describe App do
   it 'reads a collection of resources with conditions'
   it 'reads a resource with nested resources'
 
-  it 'updates a resource'
-  it 'deletes a resource'
+  it 'updates a resource' do
+    scot = Resource.create(name: 'Scot')
+    put "api/v1/resources/#{scot.id}", '{"name":"Lucy"}'
+    lucy = Resource.find(scot.id)
+    expect(response_body).to eq(lucy.attributes)
+    expect(lucy.name).to eq('Lucy')
+  end
+
+  it 'deletes a resource' do
+    david = Resource.create(name: 'David')
+    delete "api/v1/resources/#{david.id}"
+    expect(response_body).to eq(david.attributes)
+  end
 
 end
