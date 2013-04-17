@@ -1,5 +1,4 @@
 require 'sinatra/base'
-require 'rack/test'
 require 'redis'
 
 require_relative '../../lib/sinatra/restful_api'

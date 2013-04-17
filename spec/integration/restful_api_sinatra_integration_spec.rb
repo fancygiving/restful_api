@@ -1,3 +1,4 @@
+require 'rack/test'
 require_relative 'mock_app'
 
 describe App do
