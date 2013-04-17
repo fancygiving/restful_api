@@ -91,9 +91,9 @@ DEPENDENCIES
   activesupport (~> 3.1.0)
   datamapper (= 1.2.0)
   dm-redis-adapter (= 0.8.2)
-  multi_json (= 1.7.2)
+  multi_json (~> 1.7.2)
   rack-test (= 0.6.2)
-  redis
+  redis (= 2.2.2)
   rspec (= 2.13.0)
   sinatra (= 1.4.2)
   supermodel (= 0.1.4)

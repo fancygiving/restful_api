@@ -1,3 +1,12 @@
+require 'sinatra/base'
+require 'rack/test'
+require 'redis'
+
+require_relative '../../lib/sinatra/restful_api'
+require_relative '../../lib/virtual_properties'
+require_relative '../support/mock_model'
+require_relative '../support/mock_model_restful_api'
+
 class Resource < MockModel
   include SuperModel::Redis::Model
   include VirtualProperties
@@ -44,4 +53,7 @@ class App < Sinatra::Base
     "404: NOT FOUND"
   end
 
+  # start the server if ruby file executed directly
+  # allows for manual testing
+  run! if app_file == $0
 end

@@ -1,12 +1,3 @@
-require 'sinatra/base'
-require 'rack/test'
-require 'redis'
-
-require_relative '../../lib/sinatra/restful_api'
-require_relative '../../lib/virtual_properties'
-require_relative '../support/mock_model'
-require_relative '../support/mock_model_restful_api'
-
 require_relative 'mock_app'
 
 describe App do
