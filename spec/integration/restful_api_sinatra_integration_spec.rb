@@ -2,6 +2,7 @@ require 'sinatra/base'
 require 'rack/test'
 require 'redis'
 require_relative '../../lib/restful_api'
+require_relative '../../lib/sinatra/restful_api'
 require_relative '../../lib/virtual_properties'
 require_relative '../support/mock_model'
 require_relative '../support/mock_model_restful_api'
@@ -36,32 +37,12 @@ class JsonRestfulApi < MockModelRestfulApi
 end
 
 class App < Sinatra::Base
+  register Sinatra::RestfulApi
 
   set :environment, :production
+  set :restful_api_class, JsonRestfulApi
 
-  def resources_api
-    @resources_api ||= JsonRestfulApi.new(Resource)
-  end
-
-  post '/api/v1/resources' do
-    resources_api.create(request.body.read)
-  end
-
-  get '/api/v1/resources/:id' do
-    resources_api.read(params[:id], include: params[:include])
-  end
-
-  get '/api/v1/resources' do
-    resources_api.read(params[:where] || :all, include: params[:include])
-  end
-
-  put '/api/v1/resources/:id' do
-    resources_api.update(params[:id], request.body.read)
-  end
-
-  delete '/api/v1/resources/:id' do
-    resources_api.destroy(params[:id])
-  end
+  restful_api :resources
 
   error do
     error = env['sinatra.error']
