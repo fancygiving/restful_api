@@ -5,7 +5,10 @@ module Sinatra
     def restful_api(name)
       helpers do
         def restful_api_for(name)
-          settings.restful_api_adapter.new(name.to_s.singularize.classify.constantize)
+          klass = name.to_s.singularize.classify.constantize
+          settings.restful_api_adapter.new(klass).tap do |adapter|
+            adapter.extend ::RestfulApi::Json
+          end
         end
 
         define_method("#{name}_api") do

@@ -32,15 +32,11 @@ class NestedResource < MockModel
   indexes     :name, :resource_id
 end
 
-class JsonRestfulApi < MockModelRestfulApi
-  include RestfulApi::Json
-end
-
 class App < Sinatra::Base
   register Sinatra::RestfulApi
 
   set :environment, :production
-  set :restful_api_adapter, JsonRestfulApi
+  set :restful_api_adapter, MockModelRestfulApi
 
   restful_api :resources
 
