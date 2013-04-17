@@ -1,4 +1,6 @@
 require_relative '../../lib/virtual_properties'
+require 'dm-core'
+
 
 ENV['DATABASE_URL'] = 'postgres://fancygiving:fancygiving@localhost/dataservice_test'
 
