@@ -20,7 +20,7 @@ describe RestfulApi do
     partner.attributes.stringify_keys.merge('brands' => brands)
   end
 
-  let(:api) { DataMapperRestfulApi.new(Partner) }
+  let(:api) { RestfulApi::DataMapper.new(Partner) }
   let(:partner) { Partner.get(1) }
 
   it 'creates a new partner object' do

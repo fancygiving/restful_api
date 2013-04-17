@@ -1,7 +1,7 @@
 require 'sinatra/base'
 require 'rack/test'
 require 'redis'
-require_relative '../../lib/restful_api'
+
 require_relative '../../lib/sinatra/restful_api'
 require_relative '../../lib/virtual_properties'
 require_relative '../support/mock_model'
@@ -40,7 +40,7 @@ class App < Sinatra::Base
   register Sinatra::RestfulApi
 
   set :environment, :production
-  set :restful_api_class, JsonRestfulApi
+  set :restful_api_adapter, JsonRestfulApi
 
   restful_api :resources
 
