@@ -4,6 +4,7 @@ RESTful API
 ```ruby
 require 'sinatra'
 require 'sinatra/restful_api'
+require 'datamapper'
 
 class Person
   include DataMapper::Resource
