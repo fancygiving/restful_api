@@ -9,4 +9,6 @@ Gem::Specification.new do |s|
   s.files         = Dir["{lib}/**/*.rb", "bin/*", "LICENSE", "*.md"]
   s.require_path  = 'lib'
   s.homepage      = 'https://github.com/sbscully/restful_api'
+  s.add_dependency('multi_json', '~> 1.7')
+  s.add_dependency('active_support', '~> 3.0')
 end

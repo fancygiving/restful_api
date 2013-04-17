@@ -1,7 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'multi_json',     '~> 1.7.2'
-gem 'activesupport',  '~> 3.1.0'
+gemspec
 
 group :development do
   gem 'datamapper',           '1.2.0'

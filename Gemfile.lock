@@ -1,15 +1,23 @@
+PATH
+  remote: .
+  specs:
+    restful_api (0.0.0)
+      active_support (~> 3.0)
+      multi_json (~> 1.7)
+
 GEM
   remote: https://rubygems.org/
   specs:
-    activemodel (3.1.12)
-      activesupport (= 3.1.12)
-      builder (~> 3.0.0)
-      i18n (~> 0.6)
-    activesupport (3.1.12)
-      multi_json (~> 1.0)
+    active_support (3.0.0)
+      activesupport (= 3.0.0)
+    activemodel (3.0.0)
+      activesupport (= 3.0.0)
+      builder (~> 2.1.2)
+      i18n (~> 0.4.1)
+    activesupport (3.0.0)
     addressable (2.2.8)
     bcrypt-ruby (3.0.1-java)
-    builder (3.0.4)
+    builder (2.1.2)
     datamapper (1.2.0)
       dm-aggregates (~> 1.2.0)
       dm-constraints (~> 1.2.0)
@@ -56,7 +64,7 @@ GEM
       dm-core (~> 1.2.0)
     fastercsv (1.5.5)
     hiredis (0.4.5-java)
-    i18n (0.6.4)
+    i18n (0.4.2)
     json (1.7.7-java)
     json_pure (1.7.7)
     multi_json (1.7.2)
@@ -88,12 +96,11 @@ PLATFORMS
   java
 
 DEPENDENCIES
-  activesupport (~> 3.1.0)
   datamapper (= 1.2.0)
   dm-redis-adapter (= 0.8.2)
-  multi_json (~> 1.7.2)
   rack-test (= 0.6.2)
   redis (= 2.2.2)
+  restful_api!
   rspec (= 2.13.0)
   sinatra (= 1.4.2)
   supermodel (= 0.1.4)
