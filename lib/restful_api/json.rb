@@ -7,8 +7,8 @@ module RestfulApi
       dump(super(load(attrs)))
     end
 
-    def read(id)
-      dump(super(id))
+    def read(id, options={})
+      dump(super(id, options))
     end
 
     def update(id, attrs)

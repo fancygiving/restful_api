@@ -9,10 +9,12 @@ describe RestfulApi do
 
   attr_reader :bob, :briony
   before :all do
-    api.extend RestfulApi::Json
-
     @bob = MockModel.create(name: 'Bob')
     @briony = MockModel.create(name: 'Briony')
+  end
+
+  before do
+    api.extend RestfulApi::Json
   end
 
   describe 'return as JSON' do
