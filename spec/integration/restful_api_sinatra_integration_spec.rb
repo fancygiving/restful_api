@@ -142,8 +142,15 @@ describe App do
       expect(response_body).to_not include(jehoshaphat.attributes)
     end
 
-    it 'throws an error when conditions dont exist'
-    it 'returns an empty array when conditions are not met by any model'
+    it 'throws an error when conditions dont exist' do
+      get "api/v1/resources", {where: {does_not: :exist}}
+      expect(last_response.status).to be(500)
+    end
+
+    it 'returns an empty array when conditions are not met by any model' do
+      get "api/v1/resources", {where: {name: 'This is not a name'}}
+      expect(response_body).to eq([])
+    end
 
     it 'with nested resources' do
       get "api/v1/resources", {include: :nested_resources}
@@ -151,8 +158,17 @@ describe App do
       expect(response_body).to eq(expected_results)
     end
 
-    it 'throws an error when nested resource does not exist'
-    it 'with conditions and nested resources'
+    it 'throws an error when nested resource does not exist' do
+      get "api/v1/resources", {include: :non_existent_resources}
+      expect(last_response.status).to be(500)
+    end
+
+    it 'with conditions and nested resources' do
+      NestedResource.create(name: 'Shirt', resource_id: jehoshaphat.id)
+      get "api/v1/resources", {where: {name: 'Jehoshaphat'}, include: :nested_resources}
+      expect(response_body).to include(resource_with_nested_resources(jehoshaphat))
+      expect(response_body).to_not include(resource_with_nested_resources(ish_bosheth))
+    end
   end
 
   it 'updates a resource' do
