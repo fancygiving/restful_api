@@ -1,4 +1,4 @@
-require_relative '../restful_api'
+require 'restful_api'
 
 module Sinatra
   module RestfulApi
