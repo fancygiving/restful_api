@@ -1,3 +1,5 @@
+require_relative '../../lib/virtual_properties'
+
 ENV['DATABASE_URL'] = 'postgres://fancygiving:fancygiving@localhost/dataservice_test'
 
 def symbolize_keys(hash)
@@ -15,3 +17,32 @@ def load_json(json)
     symbolize_keys(results)
   end
 end
+
+DataMapper.setup(:default, {adapter: "redis"})
+
+class Person
+  include DataMapper::Resource
+  include VirtualProperties
+
+  property :id,   Serial
+  property :name, String
+
+  has n, :things
+
+  virtual_properties :name_with_id
+
+  def name_with_id
+    "#{id}|#{name}"
+  end
+end
+
+class Thing
+  include DataMapper::Resource
+
+  property :id,   Serial
+  property :name, String
+
+  belongs_to :person
+end
+
+DataMapper.finalize

@@ -3,36 +3,6 @@ require 'dm-redis-adapter'
 
 require_relative 'integration_helper'
 require_relative '../../lib/restful_api'
-require_relative '../../lib/virtual_properties'
-
-DataMapper.setup(:default, {adapter: "redis"})
-
-class Person
-  include DataMapper::Resource
-  include VirtualProperties
-
-  property :id,   Serial
-  property :name, String
-
-  has n, :things
-
-  virtual_properties :name_with_id
-
-  def name_with_id
-    "#{id}|#{name}"
-  end
-end
-
-class Thing
-  include DataMapper::Resource
-
-  property :id,   Serial
-  property :name, String
-
-  belongs_to :person
-end
-
-DataMapper.finalize
 
 describe RestfulApi::DataMapper do
 
