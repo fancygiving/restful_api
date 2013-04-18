@@ -60,7 +60,9 @@ describe RestfulApi do
      end
 
      it 'for a collection' do
-       expect(api.read(:all)).to match(json_results_with_root(bob))
+       results = api.read(:all)
+       expect(results).to match('mock_models')
+       expect(results).to match(json_results_with_root(bob))
      end
   end
 

@@ -17,7 +17,7 @@ module RestfulApi
 
     def read(id, options={})
       dump(super(id, options)) do |attrs|
-        include_root(attrs)
+        include_root(attrs) if Json.include_root_in_json
       end
     end
 
@@ -36,12 +36,10 @@ module RestfulApi
     end
 
     def include_root(attrs)
-      if Json.include_root_in_json
-        if attrs.is_a? Array
-          { resource_name.pluralize => attrs.map { |a| include_root(a) } }
-        else
-          { resource_name => attrs }
-        end
+      if attrs.is_a? Array
+        { resource_name.pluralize => attrs.map { |a| include_root(a) } }
+      else
+        { resource_name => attrs }
       end
     end
 
