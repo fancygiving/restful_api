@@ -2,6 +2,12 @@ require_relative '../restful_api'
 
 module Sinatra
   module RestfulApi
+    class ConditionsParser
+      def self.parse(conditions)
+        conditions.empty? ? :all : conditions
+      end
+    end
+
     def restful_api(name)
       helpers do
         define_method("#{name}_api") do
@@ -22,13 +28,17 @@ module Sinatra
           adapter.extend json
         end
 
-        def setting_or_default(setting, default)
-          settings.respond_to?(setting) ? settings.send(setting) : default
-        end
-
         def read_conditions
           conditions = params.except('include')
-          conditions.empty? ? :all : conditions
+          conditions_parser.parse(conditions)
+        end
+
+        def conditions_parser
+          setting_or_default(:restful_api_conditions_parser, ConditionsParser)
+        end
+
+        def setting_or_default(setting, default)
+          settings.respond_to?(setting) ? settings.send(setting) : default
         end
       end
 
