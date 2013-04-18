@@ -52,7 +52,7 @@ module Sinatra
 
       get "/api/v1/#{name}" do
         api = send("#{name}_api")
-        api.read(read_conditions(api), include: params[:include])
+        api.read(read_conditions(api.resource), include: params[:include])
       end
 
       put "/api/v1/#{name}/:id" do
