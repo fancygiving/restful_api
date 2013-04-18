@@ -8,7 +8,7 @@ module VirtualProperties
       @virtual_properties ||= properties
     end
 
-    def all_with_virtual(conditions)
+    def all_with_virtual(conditions={})
       virtual_conditions = remove_virtual_conditions(conditions)
 
       all(conditions).select do |instance|

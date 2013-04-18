@@ -19,7 +19,11 @@ module RestfulApi
     private
 
     def to_hash(instance)
-      instance && instance.attributes.stringify_keys
+      if resource.respond_to?(:all_with_virtual)
+        instance && instance.attributes_with_virtual.stringify_keys
+      else
+        instance && instance.attributes.stringify_keys
+      end
     end
 
     def resource_name
@@ -31,7 +35,11 @@ module RestfulApi
     end
 
     def get_where(conditions)
-      resource.all_with_virtual(conditions).to_a
+      if resource.respond_to?(:all_with_virtual)
+        resource.all_with_virtual(conditions).to_a
+      else
+        resource.all(conditions).to_a
+      end
     end
 
     def get_first

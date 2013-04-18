@@ -7,13 +7,13 @@ require_relative '../../lib/restful_api'
 describe RestfulApi::DataMapper do
 
   def person_attributes_with_things(partner)
-    things = partner.things.to_a.map!(&:attributes).map!(&:stringify_keys)
-    partner.attributes.stringify_keys.merge('things' => things)
+    things = partner.things.to_a.map!(&:attributes_with_virtual).map!(&:stringify_keys)
+    partner.attributes_with_virtual.stringify_keys.merge('things' => things)
   end
 
   before :all do
-    Person.all.destroy
-    Thing.all.destroy
+    Person.all.map(&:destroy)
+    Thing.all.map(&:destroy)
   end
 
   let(:api) { RestfulApi::DataMapper.new(Person) }
@@ -26,7 +26,11 @@ describe RestfulApi::DataMapper do
   end
 
   it 'returns an attributes hash' do
-    expect(api.read(dave.id)).to eq(dave.attributes.stringify_keys)
+    expect(api.read(dave.id)).to eq(dave.attributes_with_virtual.stringify_keys)
+  end
+
+  it 'returns an attributes hash with virtual conditions' do
+    expect(api.read(dave.id)).to have_key('name_with_id')
   end
 
   it 'returns a collection of attribute hashes' do
@@ -35,12 +39,12 @@ describe RestfulApi::DataMapper do
 
   it 'returns a collection with given conditions' do
     expect(api.read(name: dave.name))
-      .to include(dave.attributes.stringify_keys)
+      .to include(dave.attributes_with_virtual.stringify_keys)
   end
 
   it 'returns a collection with virtual conditions' do
     expect(api.read(name_with_id: dave.name_with_id))
-      .to include(dave.attributes.stringify_keys)
+      .to include(dave.attributes_with_virtual.stringify_keys)
   end
 
   it 'returns a collection with nested includes' do
@@ -67,7 +71,7 @@ describe RestfulApi::DataMapper do
 
   it 'returns the attributes of the object which has just been destroyed' do
     person = Person.last
-    expect(api.destroy(person.id)).to eq(person.attributes.stringify_keys)
+    expect(api.destroy(person.id)).to eq(person.attributes_with_virtual.stringify_keys)
   end
 
 end
