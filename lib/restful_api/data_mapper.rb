@@ -23,7 +23,7 @@ module RestfulApi
     end
 
     def resource_name
-      resource.name.underscore
+      @resource_name ||= resource.name.underscore
     end
 
     def get_all
