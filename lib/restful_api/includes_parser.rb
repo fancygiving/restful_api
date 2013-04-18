@@ -10,18 +10,10 @@ module RestfulApi
       end
 
       def parse(associations)
-        Hash[parse_includes(instance, as_array(associations))]
+        Hash[parse_includes(instance, [associations].flatten)]
       end
 
       private
-
-      def as_array(associations)
-        if associations.is_a?(Symbol) || associations.is_a?(String)
-          [associations]
-        else
-          associations
-        end
-      end
 
       def parse_includes(instance, associations)
         associations.map do |association|

@@ -27,7 +27,7 @@ module RestfulApi
 
     def read_collection_with_associations(collection, options={})
       if options
-        collection.map do |instance|
+        collection.map! do |instance|
           read_instance(instance.id, options)
         end
       else

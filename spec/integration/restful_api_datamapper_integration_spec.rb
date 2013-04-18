@@ -7,8 +7,13 @@ require_relative '../../lib/restful_api'
 describe RestfulApi::DataMapper do
 
   def person_attributes_with_things(partner)
-    things = partner.things.to_a.map(&:attributes).map(&:stringify_keys)
+    things = partner.things.to_a.map!(&:attributes).map!(&:stringify_keys)
     partner.attributes.stringify_keys.merge('things' => things)
+  end
+
+  before :all do
+    Person.all.destroy
+    Thing.all.destroy
   end
 
   let(:api) { RestfulApi::DataMapper.new(Person) }
@@ -46,10 +51,6 @@ describe RestfulApi::DataMapper do
   it 'returns a collection with conditions and includes' do
     expect(api.read({ name: dave.name }, { include: :things }))
       .to include(person_attributes_with_things(dave))
-  end
-
-  it 'reads partner attributes' do
-    expect(api.read(1)['name']).to eq(Person.get(1).name)
   end
 
   it 'updates a partner in the database' do

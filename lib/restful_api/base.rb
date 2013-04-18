@@ -20,7 +20,7 @@ module RestfulApi
     end
 
     def read_collection(collection)
-      collection.map { |instance| read_instance(instance.id) }
+      collection.map! { |instance| read_instance(instance.id) }
     end
 
     def read_instance(id, options={})
