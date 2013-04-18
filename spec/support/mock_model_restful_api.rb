@@ -21,6 +21,10 @@ class MockModelRestfulApi < RestfulApi::Base
     instance && instance.to_h.stringify_keys
   end
 
+  def resource_name
+    resource.model_name.underscore
+  end
+
   def get_all
     resource.all
   end

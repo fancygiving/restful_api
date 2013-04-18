@@ -31,10 +31,6 @@ module RestfulApi
 
     private
 
-    def resource_name
-      resource.model_name.underscore
-    end
-
     def include_root(attrs)
       if attrs.is_a? Array
         { resource_name.pluralize => attrs.map { |a| include_root(a) } }

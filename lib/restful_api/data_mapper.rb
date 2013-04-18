@@ -22,6 +22,10 @@ module RestfulApi
       instance && instance.attributes.stringify_keys
     end
 
+    def resource_name
+      resource.name.underscore
+    end
+
     def get_all
       resource.all.to_a
     end
