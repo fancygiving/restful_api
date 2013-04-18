@@ -42,6 +42,13 @@ describe RestfulApi::DataMapper do
       .to include(dave.attributes_with_virtual.stringify_keys)
   end
 
+  it 'returns a collection with nested conditions' do
+    thing_api = RestfulApi::DataMapper.new(Thing)
+    thing = Thing.create(name: 'Sofa', person_id: dave.id)
+    expect(thing_api.read({person: {name: 'Dave'}}))
+      .to include(thing.attributes.stringify_keys)
+  end
+
   it 'returns a collection with virtual conditions' do
     expect(api.read(name_with_id: dave.name_with_id))
       .to include(dave.attributes_with_virtual.stringify_keys)
