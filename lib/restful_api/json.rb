@@ -3,12 +3,22 @@ require 'multi_json'
 module RestfulApi
   module Json
 
+    def self.include_root_in_json=(boolean=false)
+      @include_root_in_json = boolean
+    end
+
+    def self.include_root_in_json
+      @include_root_in_json
+    end
+
     def create(attrs)
       dump(super(load(attrs)))
     end
 
     def read(id, options={})
-      dump(super(id, options))
+      dump(super(id, options)) do |attrs|
+        include_root(attrs)
+      end
     end
 
     def update(id, attrs)
@@ -21,11 +31,26 @@ module RestfulApi
 
     private
 
+    def resource_name
+      resource.model_name.underscore
+    end
+
+    def include_root(attrs)
+      if Json.include_root_in_json
+        if attrs.is_a? Array
+          { resource_name.pluralize => attrs.map { |a| include_root(a) } }
+        else
+          { resource_name => attrs }
+        end
+      end
+    end
+
     def load(string)
       MultiJson.load(string)
     end
 
     def dump(object)
+      object = yield(object) if block_given? and !yield.nil?
       MultiJson.dump(object)
     end
 

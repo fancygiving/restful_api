@@ -45,4 +45,23 @@ describe RestfulApi do
 
   end
 
+  describe 'include root in JSON' do
+     before do
+       RestfulApi::Json.include_root_in_json = true
+     end
+
+     def json_results_with_root(instance)
+       '{"' + instance.class.model_name.underscore +
+        '":{"id":' + instance.id.to_s + ',"name":"' + instance.name + '"}}'
+     end
+
+     it 'for a single resource' do
+       expect(api.read(bob.id)).to eq(json_results_with_root(bob))
+     end
+
+     it 'for a collection' do
+       expect(api.read(:all)).to match(json_results_with_root(bob))
+     end
+  end
+
 end
