@@ -25,6 +25,11 @@ module Sinatra
         def setting_or_default(setting, default)
           settings.respond_to?(setting) ? settings.send(setting) : default
         end
+
+        def read_conditions
+          conditions = params.except('include')
+          conditions.empty? ? :all : conditions
+        end
       end
 
       post "/api/v1/#{name}" do
@@ -36,7 +41,7 @@ module Sinatra
       end
 
       get "/api/v1/#{name}" do
-        send("#{name}_api").read(params[:where] || :all, include: params[:include])
+        send("#{name}_api").read(read_conditions, include: params[:include])
       end
 
       put "/api/v1/#{name}/:id" do

@@ -58,24 +58,24 @@ describe App do
     end
 
     it 'with conditions' do
-      get "api/v1/resources", {where: {name: 'Jehoshaphat'}}
+      get "api/v1/resources", {name: 'Jehoshaphat'}
       expect(response_body).to include(jehoshaphat.attributes)
       expect(response_body).to_not include(ish_bosheth.attributes)
     end
 
     it 'with conditions on virtual attributes' do
-      get "api/v1/resources", {where: {name_with_id: "#{ish_bosheth.id}|Ish Bosheth"}}
+      get "api/v1/resources", {name_with_id: "#{ish_bosheth.id}|Ish Bosheth"}
       expect(response_body).to include(ish_bosheth.attributes)
       expect(response_body).to_not include(jehoshaphat.attributes)
     end
 
     it 'throws an error when conditions dont exist' do
-      get "api/v1/resources", {where: {does_not: :exist}}
+      get "api/v1/resources", {does_not: :exist}
       expect(last_response.status).to be(500)
     end
 
     it 'returns an empty array when conditions are not met by any model' do
-      get "api/v1/resources", {where: {name: 'This is not a name'}}
+      get "api/v1/resources", {name: 'This is not a name'}
       expect(response_body).to eq([])
     end
 
@@ -92,7 +92,7 @@ describe App do
 
     it 'with conditions and nested resources' do
       NestedResource.create(name: 'Shirt', resource_id: jehoshaphat.id)
-      get "api/v1/resources", {where: {name: 'Jehoshaphat'}, include: :nested_resources}
+      get "api/v1/resources", {name: 'Jehoshaphat', include: :nested_resources}
       expect(response_body).to include(resource_with_nested_resources(jehoshaphat))
       expect(response_body).to_not include(resource_with_nested_resources(ish_bosheth))
     end
