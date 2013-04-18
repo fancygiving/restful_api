@@ -17,7 +17,7 @@ module RestfulApi
 
     def read(id, options={})
       dump(super(id, options)) do |attrs|
-        include_root(attrs) if Json.include_root_in_json
+        include_root(attrs) if ::RestfulApi::Json.include_root_in_json
       end
     end
 

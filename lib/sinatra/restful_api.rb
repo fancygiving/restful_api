@@ -4,16 +4,26 @@ module Sinatra
   module RestfulApi
     def restful_api(name)
       helpers do
-        def restful_api_for(name)
-          klass = name.to_s.singularize.classify.constantize
-          settings.restful_api_adapter.new(klass).tap do |adapter|
-            adapter.extend ::RestfulApi::Json
-          end
-        end
-
         define_method("#{name}_api") do
           instance_variable_get("@#{name}_api") ||
             instance_variable_set("@#{name}_api", restful_api_for(name))
+        end
+
+        def restful_api_for(name)
+          klass = name.to_s.singularize.classify.constantize
+          settings.restful_api_adapter.new(klass).tap do |adapter|
+            restful_json_api_setup(adapter)
+          end
+        end
+
+        def restful_json_api_setup(adapter)
+          json = ::RestfulApi::Json
+          json.include_root_in_json = setting_or_default(:include_root_in_json, false)
+          adapter.extend json
+        end
+
+        def setting_or_default(setting, default)
+          settings.respond_to?(setting) ? settings.send(setting) : default
         end
       end
 
