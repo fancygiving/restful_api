@@ -3,7 +3,7 @@ require_relative '../restful_api'
 module Sinatra
   module RestfulApi
     class ConditionsParser
-      def self.parse(conditions)
+      def self.parse(conditions, model)
         conditions.empty? ? :all : conditions
       end
     end
@@ -28,9 +28,9 @@ module Sinatra
           adapter.extend json
         end
 
-        def read_conditions
+        def read_conditions(resource)
           conditions = params.except('include')
-          conditions_parser.parse(conditions)
+          conditions_parser.parse(conditions, resource)
         end
 
         def conditions_parser
@@ -51,7 +51,8 @@ module Sinatra
       end
 
       get "/api/v1/#{name}" do
-        send("#{name}_api").read(read_conditions, include: params[:include])
+        api = send("#{name}_api")
+        api.read(read_conditions(api), include: params[:include])
       end
 
       put "/api/v1/#{name}/:id" do
