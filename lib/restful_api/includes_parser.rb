@@ -35,14 +35,14 @@ module RestfulApi
         model = instance.send(association)
 
         if model.is_a? Array
-          association_restful_api(association).read_collection(model, options)
+          association_restful_api(model.class).read_collection(model, options)
         else
-          association_restful_api(association).read_instance(model, options)
+          association_restful_api(model.class).read_instance(model, options)
         end
       end
 
-      def association_restful_api(association)
-        api.class.new(association.to_s.classify.constantize)
+      def association_restful_api(klass)
+        api.class.new(klass)
       end
 
     end

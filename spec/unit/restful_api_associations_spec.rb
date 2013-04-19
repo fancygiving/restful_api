@@ -5,10 +5,17 @@ require_relative '../support/mock_model_restful_api'
 class Item < MockModel
   belongs_to :list
   belongs_to :owner
+
+  def recipient
+    User.find(recipient_id)
+  end
 end
 
 class Owner < MockModel
   has_many :items
+end
+
+class User < MockModel
 end
 
 class List < MockModel
@@ -20,13 +27,15 @@ describe 'RestfulApi associations' do
   let(:list_api) { MockModelRestfulApi.new(List) }
   let(:item_api) { MockModelRestfulApi.new(Item) }
 
-  attr_reader :list, :item, :owner
+  attr_reader :list, :item, :owner, :recipient
   before do
-    @list   = List.create(name: 'Tools')
-    @owner  = Owner.create(name: 'Owen')
-    @item   = Item.create(name: 'Screwdriver',
+    @list       = List.create(name: 'Tools')
+    @owner      = Owner.create(name: 'Owen')
+    @recipient  = User.create(name: 'Ulysses')
+    @item       = Item.create(name: 'Screwdriver',
                           list_id: list.id,
-                          owner_id: owner.id)
+                          owner_id: owner.id,
+                          recipient_id: recipient.id)
   end
 
   it 'can read an arbitrary collection' do
@@ -47,6 +56,11 @@ describe 'RestfulApi associations' do
   it 'returns an associated instance' do
     item_list = item_api.read(item.id, include: [:list])['list']
     expect(item_list).to eq(list.attributes)
+  end
+
+  it 'returns an associated instance with a name different to its class' do
+    item_recipient = item_api.read(item.id, include: [:recipient])['recipient']
+    expect(item_recipient).to eq(recipient.attributes)
   end
 
   it 'returns multiple associated instances' do
