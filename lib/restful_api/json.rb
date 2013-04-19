@@ -12,13 +12,19 @@ module RestfulApi
     end
 
     def create(attrs)
-      dump(super(load(attrs)))
+      super(load(attrs))
     end
 
-    def read(id, options={})
-      dump(super(id, options)) do |attrs|
-        include_root(attrs) if ::RestfulApi::Json.include_root_in_json
-      end
+    def read_collection(collection, options={})
+      json = "[#{super.join(',')}]"
+      json = "{\"#{resource_name.pluralize}\":#{json}}" if include_root?
+      json
+    end
+
+    def read_instance(instance, options={})
+      json = dump(super)
+      json = "{\"#{resource_name}\":#{json}}" if include_root?
+      json
     end
 
     def update(id, attrs)
@@ -30,6 +36,10 @@ module RestfulApi
     end
 
     private
+
+    def include_root?
+      Json.include_root_in_json
+    end
 
     def include_root(attrs)
       if attrs.is_a? Array

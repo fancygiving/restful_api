@@ -37,7 +37,7 @@ module RestfulApi
         if model.is_a? Array
           association_restful_api(association).read_collection(model, options)
         else
-          association_restful_api(association).read_instance(model.id, options)
+          association_restful_api(association).read_instance(model, options)
         end
       end
 

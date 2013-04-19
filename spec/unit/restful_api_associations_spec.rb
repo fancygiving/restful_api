@@ -34,6 +34,11 @@ describe 'RestfulApi associations' do
     expect(items).to eq([item.attributes])
   end
 
+  it 'can read an arbitrary collection with associations' do
+    items = item_api.read_collection(list.items, include: :owner)
+    expect(items).to eq([item.attributes.merge(owner: owner.attributes)])
+  end
+
   it 'returns an associated collection' do
     items = list_api.read(list.id, include: [:items])['items']
     expect(items).to eq([item.attributes])

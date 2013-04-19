@@ -31,6 +31,10 @@ describe RestfulApi do
       expect(api.read(:all)).to match(json_results(bob))
     end
 
+    it 'reads an arbitrary collection' do
+      expect(api.read_collection(MockModel.all)).to match(json_results(bob))
+    end
+
     it 'returns the created resource as json' do
       expect(api.create('{"name":"Michael"}')).to eq(json_results(MockModel.last))
     end

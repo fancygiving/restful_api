@@ -43,4 +43,13 @@ describe RestfulApi do
 
   end
 
+  describe 'reading a collection' do
+
+    it 'can read an arbitrary collection of models' do
+      collection = api.read_collection(MockModel.all)
+      expect(collection).to eq(MockModel.all.map!(&:attributes))
+    end
+
+  end
+
 end

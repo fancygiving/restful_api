@@ -15,16 +15,16 @@ module RestfulApi
       elsif id == :all
         read_all(options)
       else
-        read_instance(id, options)
+        read_instance(get_instance(id), options)
       end
     end
 
-    def read_collection(collection)
-      collection.map! { |instance| read_instance(instance.id) }
+    def read_collection(collection, options={})
+      collection.map! { |instance| read_instance(instance) }
     end
 
-    def read_instance(id, options={})
-      to_hash(get_instance(id))
+    def read_instance(instance, options={})
+      to_hash(instance)
     end
 
     def update(id, attrs)

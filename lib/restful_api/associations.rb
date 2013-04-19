@@ -15,20 +15,20 @@ module RestfulApi
       end
     end
 
-    def read_instance_with_associations(id, options={})
-      instance = read_instance_without_associations(id, options)
+    def read_instance_with_associations(instance, options={})
+      attrs = read_instance_without_associations(instance, options)
 
       if options[:include]
-        instance.merge(associations(get_instance(id), options[:include]))
+        attrs.merge(associations(instance, options[:include]))
       else
-        instance
+        attrs
       end
     end
 
     def read_collection_with_associations(collection, options={})
       if options
         collection.map! do |instance|
-          read_instance(instance.id, options)
+          read_instance(instance, options)
         end
       else
         read_collection_without_associations(collection)
@@ -38,7 +38,11 @@ module RestfulApi
     private
 
     def associations(instance, associations)
-      IncludesParser.new(instance, self).parse(associations)
+      includes_parser(instance).parse(associations)
+    end
+
+    def includes_parser(instance)
+      IncludesParser.new(instance, self)
     end
 
   end
