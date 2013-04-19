@@ -11,5 +11,6 @@ Gem::Specification.new do |s|
   s.homepage      = 'https://github.com/sbscully/restful_api'
   s.add_dependency('multi_json', '~> 1.7')
   s.add_dependency('active_support', '~> 3.0')
-  s.add_dependency('virtus')
+  s.add_dependency('virtus', '~> 0.5.4')
+  s.add_dependency('faraday', '~> 0.8.7')
 end

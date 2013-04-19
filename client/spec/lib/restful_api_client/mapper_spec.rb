@@ -1,5 +1,5 @@
 require 'virtus'
-require_relative '../../../lib/dataservice/mapper'
+require_relative '../../../lib/restful_api/client/mapper'
 
 class Item
   include Virtus

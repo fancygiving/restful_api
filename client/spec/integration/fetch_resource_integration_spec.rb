@@ -1,7 +1,7 @@
 describe 'Fetch resources' do
 
   it 'fetches a resource' do
-    pending 'creating a resource'
+    sophie = Resource.create(name: 'Sophie')
   end
 
 end

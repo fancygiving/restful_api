@@ -1,25 +1,28 @@
-require 'virtus'
-require 'faraday'
+require_relative '../../lib/restful_api/client'
 
-class Person
-  include Virtus
+class Resource
+  include RestfulApi::Client::Model
 
-  def self.create(attrs)
-    self.new(attrs).save
-  end
-
-  def save
-    Faraday.post('http://localhost:4567/api/v1/people', attributes)
-  end
-
+  attribute :id, Integer
   attribute :name, String
 end
 
 describe 'Create a new resource' do
 
+  let(:fred) { Resource.create(name: 'Fred') }
+
   it 'creates a new resource' do
-    person = Person.create(name: 'Fred')
-    expect(person.name).to eq('Fred')
+    expect(fred.name).to eq('Fred')
+  end
+
+  it 'persists it over the network' do
+    expect(fred.id).to be_an(Integer)
+  end
+
+  it 'new and save' do
+    simon = Resource.new(name: 'Simon')
+    expect(simon.save).to be_true
+    expect(simon.id).to be_an(Integer)
   end
 
 end
