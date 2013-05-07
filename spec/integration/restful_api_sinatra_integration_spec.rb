@@ -27,6 +27,11 @@ describe App do
     expect(response_body).to eq(Resource.last.attributes)
   end
 
+  it 'returns a blank resource' do
+    get 'api/v1/resources/new'
+    expect(response_body).to eq({'name' => nil})
+  end
+
   describe 'reads a resource' do
 
     let(:barry) { Resource.create(name: 'Barry') }

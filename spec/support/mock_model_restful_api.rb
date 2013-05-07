@@ -55,4 +55,8 @@ class MockModelRestfulApi < RestfulApi::Base
     nil
   end
 
+  def build_instance
+    resource.new(Hash[resource.attributes.map { |r| [r, nil] }])
+  end
+
 end

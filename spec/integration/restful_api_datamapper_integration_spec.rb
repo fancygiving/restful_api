@@ -25,6 +25,10 @@ describe RestfulApi::DataMapper do
     }.to change(Person, :count).by(1)
   end
 
+  it 'returns a new object' do
+    expect(api.build).to eq({'id' => nil, 'name' => nil, 'name_with_id' => '|'})
+  end
+
   it 'returns an attributes hash' do
     expect(api.read(dave.id)).to eq(dave.attributes_with_virtual.stringify_keys)
   end

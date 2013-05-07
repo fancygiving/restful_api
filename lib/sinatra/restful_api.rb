@@ -56,6 +56,10 @@ module Sinatra
         send("#{name}_api").create(request.body.read)
       end
 
+      get "/api/v1/#{name}/new" do
+        send("#{name}_api").build
+      end
+
       get "/api/v1/#{name}/:id" do
         send("#{name}_api").read(params[:id], include: params[:include])
       end

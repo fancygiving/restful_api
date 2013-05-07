@@ -53,5 +53,9 @@ module RestfulApi
     def get_id(id)
       resource.get(id)
     end
+
+    def build_instance
+      resource.new(Hash[resource.properties.map { |r| [r.name, nil] }])
+    end
   end
 end

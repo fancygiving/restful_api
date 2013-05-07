@@ -9,6 +9,10 @@ module RestfulApi
     def create(attrs)
     end
 
+    def build
+      read_instance(build_instance)
+    end
+
     def read(id, options={})
       if id.is_a? Hash
         read_where(id, options)
