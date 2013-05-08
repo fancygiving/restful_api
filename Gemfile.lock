@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    restful_api (0.0.3)
+    restful_api (0.0.4)
       active_support (~> 3.0)
       faraday (~> 0.8.7)
       multi_json (~> 1.7)

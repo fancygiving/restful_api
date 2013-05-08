@@ -1,11 +1,11 @@
 module RestfulApi
   class DataMapper < RestfulApi::Base
     def create(attrs)
-      read_instance(resource.create(attrs))
+      read_instance(resource.create(attrs.symbolize_keys))
     end
 
     def update(id, attrs)
-      get_id(id).update(attrs)
+      get_id(id).update(attrs.symbolize_keys)
       read(id)
     end
 
