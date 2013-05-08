@@ -1,8 +1,7 @@
 module RestfulApi
   class DataMapper < RestfulApi::Base
     def create(attrs)
-      instance = resource.create(attrs)
-      to_hash(instance)
+      read_instance(resource.create(attrs))
     end
 
     def update(id, attrs)

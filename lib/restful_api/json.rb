@@ -41,16 +41,12 @@ module RestfulApi
       Json.include_root_in_json
     end
 
-    def include_root(attrs)
-      if attrs.is_a? Array
-        { resource_name.pluralize => attrs.map { |a| include_root(a) } }
+    def load(object)
+      if object.is_a? String
+        MultiJson.load(object)
       else
-        { resource_name => attrs }
+        object
       end
-    end
-
-    def load(string)
-      MultiJson.load(string)
     end
 
     def dump(object)
