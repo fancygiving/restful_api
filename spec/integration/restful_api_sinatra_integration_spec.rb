@@ -108,12 +108,14 @@ describe App do
     end
   end
 
-  it 'updates a resource' do
-    scot = Resource.create(name: 'Scot')
-    put "api/v1/resources/#{scot.id}", '{"name":"Lucy"}'
-    lucy = Resource.find(scot.id)
-    expect(response_body).to eq(lucy.attributes)
-    expect(lucy.name).to eq('Lucy')
+  describe 'updates a resource' do
+    it 'updates' do
+      scot = Resource.create(name: 'Scot')
+      put "api/v1/resources/#{scot.id}", '{"name":"Lucy"}'
+      lucy = Resource.find(scot.id)
+      expect(response_body).to eq(lucy.attributes)
+      expect(lucy.name).to eq('Lucy')
+    end
   end
 
   it 'deletes a resource' do

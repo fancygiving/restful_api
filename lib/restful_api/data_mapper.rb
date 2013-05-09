@@ -5,8 +5,16 @@ module RestfulApi
     end
 
     def update(id, attrs)
-      get_id(id).update(attrs.symbolize_keys)
-      read(id)
+      instance = get_id(id)
+
+      if instance
+        instance.update(attrs.symbolize_keys)
+        read(id)
+      else
+        raise RestfulApi::NotFoundError, 'Resource not found'
+      end
+    rescue ArgumentError => e
+      raise RestfulApi::InvalidAttributesError, e.message
     end
 
     def destroy(id)

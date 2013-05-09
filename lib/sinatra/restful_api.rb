@@ -74,7 +74,13 @@ module Sinatra
       end
 
       put "/api/v1/#{name}/:id" do
-        send("#{name}_api").update(params[:id], request.body.read)
+        begin
+          send("#{name}_api").update(params[:id], request.body.read)
+        rescue ::RestfulApi::NotFoundError => e
+          raise Sinatra::NotFound, "404 NOT FOUND: Record with id #{params[:id]} not found"
+        rescue ::RestfulApi::InvalidAttributesError => e
+          halt 400, "400 BAD REQUEST: #{e.message}"
+        end
       end
 
       delete "/api/v1/#{name}/:id" do

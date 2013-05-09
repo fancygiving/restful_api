@@ -5,8 +5,12 @@ class MockModelRestfulApi < RestfulApi::Base
 
   def update(id, attrs)
     instance = get_id(id)
-    instance.update_attributes(attrs)
-    read_instance(instance)
+    if instance
+      instance.update_attributes(attrs)
+      read_instance(instance)
+    else
+      raise RestfulApi::NotFoundError, 'Resource not found'
+    end
   end
 
   def destroy(id)

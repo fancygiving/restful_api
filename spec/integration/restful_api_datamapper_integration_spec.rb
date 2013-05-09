@@ -74,6 +74,19 @@ describe RestfulApi::DataMapper do
     expect(Person.get(brian.id).name).to eq("WoopWoopEternalRainClouds")
   end
 
+  it 'raises a not found error if the record is not found' do
+    expect {
+      api.update(99999999, name: "WoopWoopEternalRainClouds")
+    }.to raise_error(RestfulApi::NotFoundError)
+  end
+
+  it 'raises an error if the attributes passed are incorrect' do
+    lukasz = Person.create!(name: 'Lukasz')
+    expect {
+      api.update(lukasz.id, narwhal: true)
+    }.to raise_error(RestfulApi::InvalidAttributesError)
+  end
+
   it 'destroys a partner in the database' do
     expect {
       api.destroy(Person.last.id)

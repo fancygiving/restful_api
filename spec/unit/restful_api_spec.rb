@@ -40,6 +40,12 @@ describe RestfulApi do
       expect(api.read(serina.id)['name']).to eq('Alan')
     end
 
+    it 'returns an error if the record does not exist' do
+      expect {
+        api.update(9999999, {name: 'Alan'})
+      }.to raise_error(RestfulApi::NotFoundError)
+    end
+
     it 'destroys an item from the collection' do
       api.destroy(serina.id)
       expect { api.read(serina.id) }.to raise_error(RestfulApi::NotFoundError)

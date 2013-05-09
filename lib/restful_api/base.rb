@@ -1,5 +1,6 @@
 module RestfulApi
   class NotFoundError < StandardError; end
+  class InvalidAttributesError < StandardError; end
 
   class Base
     attr_reader :resource
