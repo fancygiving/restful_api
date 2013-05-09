@@ -1,4 +1,6 @@
 module RestfulApi
+  class NotFoundError < StandardError; end
+
   class Base
     attr_reader :resource
 
@@ -28,6 +30,7 @@ module RestfulApi
     end
 
     def read_instance(instance, options={})
+      raise RestfulApi::NotFoundError, 'Resource not found' unless instance.present?
       to_hash(instance)
     end
 

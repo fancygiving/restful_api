@@ -18,6 +18,10 @@ describe RestfulApi do
       expect(api.read(dave.id)).to eq(dave.attributes)
     end
 
+    it 'returns an error if the resource cannot be found' do
+      expect { api.read(9999999) }.to raise_error(RestfulApi::NotFoundError)
+    end
+
     it 'fetches all instances of the resource' do
       expect(api.read(:all)).to include(dave.attributes, serina.attributes)
     end
@@ -38,7 +42,7 @@ describe RestfulApi do
 
     it 'destroys an item from the collection' do
       api.destroy(serina.id)
-      expect(api.read(serina.id)).to eq(nil)
+      expect { api.read(serina.id) }.to raise_error(RestfulApi::NotFoundError)
     end
 
   end

@@ -41,6 +41,11 @@ describe App do
       expect(response_body).to eq(barry.attributes)
     end
 
+    it 'returns 404 if the resources does not exist' do
+      get "api/v1/resources/999999999"
+      expect(last_response.status).to eq(404)
+    end
+
     it 'include nested resource' do
       sock = NestedResource.create(name: 'Sock', resource_id: barry.id)
       get "api/v1/resources/#{barry.id}", {include: :nested_resources}

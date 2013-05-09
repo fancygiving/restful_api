@@ -61,7 +61,11 @@ module Sinatra
       end
 
       get "/api/v1/#{name}/:id" do
-        send("#{name}_api").read(params[:id], include: params[:include])
+        begin
+          send("#{name}_api").read(params[:id], include: params[:include])
+        rescue ::RestfulApi::NotFoundError => e
+          raise Sinatra::NotFound, "404 NOT FOUND: Record with id #{params[:id]} not found"
+        end
       end
 
       get "/api/v1/#{name}" do
