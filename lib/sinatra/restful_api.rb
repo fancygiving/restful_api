@@ -79,7 +79,7 @@ module Sinatra
         rescue ::RestfulApi::NotFoundError => e
           raise Sinatra::NotFound, "404 NOT FOUND: Record with id #{params[:id]} not found"
         rescue ::RestfulApi::InvalidAttributesError => e
-          halt 400, "400 BAD REQUEST: #{e.message}"
+          halt 400, MultiJson.dump({error: e.message})
         end
       end
 
