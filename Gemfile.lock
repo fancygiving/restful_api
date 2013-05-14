@@ -1,11 +1,11 @@
 PATH
   remote: .
   specs:
-    restful_api (0.0.8)
-      active_support (~> 3.0)
-      faraday (~> 0.8.7)
-      multi_json (~> 1.7)
-      virtus (~> 0.5.4)
+    restful_api (0.0.9)
+      active_support
+      faraday
+      multi_json
+      virtus
 
 GEM
   remote: https://rubygems.org/

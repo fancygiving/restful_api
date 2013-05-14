@@ -18,7 +18,7 @@ module Sinatra
                           name.to_s.singularize.classify.constantize)
       end
 
-      def restful_json_api(adapter, klass)
+      def (adapter, klass)
         adapter.new(klass).tap do |adapter|
           restful_json_api_setup(adapter)
         end
