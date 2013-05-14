@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.require_path  = 'lib'
   s.homepage      = 'https://github.com/sbscully/restful_api'
   s.add_dependency('multi_json')
-  s.add_dependency('active_support')
+  s.add_dependency('activesupport')
   s.add_dependency('virtus')
   s.add_dependency('faraday')
 end
