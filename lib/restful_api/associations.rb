@@ -1,6 +1,6 @@
 require 'active_support/inflector'
 require 'active_support/core_ext/hash'
-require_relative 'includes_parser'
+require_relative 'associations/parses_includes'
 
 module RestfulApi
   module Associations
@@ -42,7 +42,7 @@ module RestfulApi
     end
 
     def includes_parser(instance)
-      IncludesParser.new(instance, self)
+      ParsesIncludes.new(instance, self)
     end
 
   end

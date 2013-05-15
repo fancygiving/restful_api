@@ -32,10 +32,10 @@ describe 'RestfulApi associations' do
     @list       = List.create(name: 'Tools')
     @owner      = Owner.create(name: 'Owen')
     @recipient  = User.create(name: 'Ulysses')
-    @item       = Item.create(name: 'Screwdriver',
-                          list_id: list.id,
-                          owner_id: owner.id,
-                          recipient_id: recipient.id)
+    @item       = Item.create(name:         'Screwdriver',
+                              list_id:      list.id,
+                              owner_id:     owner.id,
+                              recipient_id: recipient.id)
   end
 
   it 'can read an arbitrary collection' do
@@ -56,6 +56,12 @@ describe 'RestfulApi associations' do
   it 'returns an associated instance' do
     item_list = item_api.read(item.id, include: [:list])['list']
     expect(item_list).to eq(list.attributes)
+  end
+
+  it 'returns nil if there is no associated instance' do
+    item.list = nil
+    item_list = item_api.read(item.id, include: [:list])['list']
+    expect(item_list).to eq(nil)
   end
 
   it 'returns an associated instance with a name different to its class' do

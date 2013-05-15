@@ -1,6 +1,8 @@
+require_relative 'reads_associations'
+
 module RestfulApi
   module Associations
-    class IncludesParser
+    class ParsesIncludes
 
       attr_reader :instance, :api
 
@@ -32,17 +34,7 @@ module RestfulApi
       end
 
       def read_association(instance, association, options={})
-        model = instance.send(association)
-
-        if model.is_a? Array
-          association_restful_api(model.class).read_collection(model, options)
-        else
-          association_restful_api(model.class).read_instance(model, options)
-        end
-      end
-
-      def association_restful_api(klass)
-        api.class.new(klass)
+        ReadsAssociations.new(self, association).read(options)
       end
 
     end
