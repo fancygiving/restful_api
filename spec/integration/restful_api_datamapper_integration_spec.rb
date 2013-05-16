@@ -25,6 +25,12 @@ describe RestfulApi::DataMapper do
     }.to change(Person, :count).by(1)
   end
 
+  it 'throws an error for bad input' do
+    expect {
+      api.create(lounge_chair_count: 3)
+    }.to raise_error(RestfulApi::InvalidAttributesError)
+  end
+
   it 'returns a new object' do
     expect(api.build).to eq({'id' => nil, 'name' => nil, 'name_with_id' => '|'})
   end

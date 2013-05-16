@@ -2,6 +2,8 @@ module RestfulApi
   class DataMapper < RestfulApi::Base
     def create(attrs)
       read_instance(resource.create(attrs.symbolize_keys))
+    rescue ArgumentError => e
+      raise RestfulApi::InvalidAttributesError, e.message
     end
 
     def update(id, attrs)

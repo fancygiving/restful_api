@@ -39,11 +39,6 @@ class App < Sinatra::Base
 
   restful_api :resources
 
-  error do
-    error = env['sinatra.error']
-    "#{error.name} - #{error.message}\n#{error.backtrace.join("\n")}"
-  end
-
   not_found do
     "404: NOT FOUND"
   end

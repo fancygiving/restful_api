@@ -53,7 +53,11 @@ module Sinatra
       end
 
       post "/api/v1/#{name}" do
-        send("#{name}_api").create(request.body.read)
+        begin
+          send("#{name}_api").create(request.body.read)
+        rescue ::RestfulApi::InvalidAttributesError => e
+          halt 422, MultiJson.dump({error: e.message})
+        end
       end
 
       get "/api/v1/#{name}/new" do
@@ -79,7 +83,7 @@ module Sinatra
         rescue ::RestfulApi::NotFoundError => e
           raise Sinatra::NotFound, "404 NOT FOUND: Record with id #{params[:id]} not found"
         rescue ::RestfulApi::InvalidAttributesError => e
-          halt 400, MultiJson.dump({error: e.message})
+          halt 422, MultiJson.dump({error: e.message})
         end
       end
 

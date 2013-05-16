@@ -22,9 +22,13 @@ describe App do
     NestedResource.destroy_all
   end
 
-  it 'creates a resource' do
-    post 'api/v1/resources', '{"name":"Linda"}'
-    expect(response_body).to eq(Resource.last.attributes)
+  describe 'creating a resource' do
+
+    it 'creates a resource' do
+      post 'api/v1/resources', '{"name":"Linda"}'
+      expect(response_body).to eq(Resource.last.attributes)
+    end
+
   end
 
   it 'returns a blank resource' do
