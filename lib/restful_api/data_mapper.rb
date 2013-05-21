@@ -25,10 +25,6 @@ module RestfulApi
       attrs
     end
 
-    def build
-      resource.new.attributes.stringify_keys
-    end
-
     private
 
     def to_hash(instance)
@@ -65,6 +61,10 @@ module RestfulApi
 
     def get_id(id)
       resource.get(id)
+    end
+
+    def build_instance
+      resource.new
     end
   end
 end
