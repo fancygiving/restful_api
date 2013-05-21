@@ -64,7 +64,15 @@ module RestfulApi
     end
 
     def build_instance
-      resource.new
+      resource.new(build_attributes)
+    end
+
+    def build_attributes
+      default_properties.merge(resource.new.attributes)
+    end
+
+    def default_properties
+      Hash[resource.properties.map { |property| [property.name, nil] }]
     end
   end
 end

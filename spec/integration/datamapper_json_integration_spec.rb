@@ -26,7 +26,7 @@ describe 'DataMapper JSON integration' do
   describe '#build' do
 
     it 'builds a resource with default values' do
-      expect(api.build).to eq("{\"name\":\"noname\",\"name_with_id\":\"|noname\"}")
+      expect(api.build).to eq("{\"id\":null,\"name\":\"noname\",\"name_with_id\":\"|noname\"}")
     end
 
   end
