@@ -64,7 +64,7 @@ module RestfulApi
     end
 
     def build_instance
-      resource.new(Hash[resource.properties.map { |r| [r.name, nil] }])
+      resource.new.attributes
     end
   end
 end
