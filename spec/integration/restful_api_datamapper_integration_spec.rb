@@ -32,7 +32,7 @@ describe RestfulApi::DataMapper do
   end
 
   it 'returns a new object' do
-    expect(api.build).to eq({'id' => nil, 'name' => nil, 'name_with_id' => '|'})
+    expect(api.build).to eq({'name' => 'noname'})
   end
 
   it 'returns an attributes hash' do

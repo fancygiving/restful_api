@@ -27,7 +27,7 @@ class Person
   include VirtualProperties
 
   property :id,   Serial
-  property :name, String
+  property :name, String, default: 'noname'
 
   has n, :things
 
