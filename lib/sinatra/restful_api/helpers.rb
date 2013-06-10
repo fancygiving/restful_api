@@ -1,5 +1,3 @@
-require_relative 'api_factory'
-
 module Sinatra
   module RestfulApi
     class DefaultConditionsParser
@@ -9,10 +7,6 @@ module Sinatra
     end
 
     module Helpers
-      def restful_api_for(name)
-        ApiFactory.new(name, settings).build_restful_api!
-      end
-
       def read_conditions(resource)
         conditions = params.except('include')
         conditions_parser.parse(conditions, resource)
