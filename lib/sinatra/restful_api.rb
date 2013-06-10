@@ -1,47 +1,10 @@
 require_relative '../restful_api'
+require_relative 'restful_api/helpers'
 
 module Sinatra
   module RestfulApi
     def self.registered(app)
       app.helpers Helpers
-    end
-
-    class ConditionsParser
-      def self.parse(conditions, model)
-        conditions.empty? ? :all : conditions
-      end
-    end
-
-    module Helpers
-      def restful_api_for(name)
-        restful_json_api(settings.restful_api_adapter,
-                          name.to_s.singularize.classify.constantize)
-      end
-
-      def restful_json_api(adapter, klass)
-        adapter.new(klass).tap do |adapter|
-          restful_json_api_setup(adapter)
-        end
-      end
-
-      def restful_json_api_setup(adapter)
-        json = ::RestfulApi::Json
-        json.include_root_in_json = setting_or_default(:include_root_in_json, false)
-        adapter.extend json
-      end
-
-      def read_conditions(resource)
-        conditions = params.except('include')
-        conditions_parser.parse(conditions, resource)
-      end
-
-      def conditions_parser
-        setting_or_default(:restful_api_conditions_parser, ConditionsParser)
-      end
-
-      def setting_or_default(setting, default)
-        settings.respond_to?(setting) ? settings.send(setting) : default
-      end
     end
 
     def restful_api(name)
