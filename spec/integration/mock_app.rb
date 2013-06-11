@@ -17,6 +17,10 @@ class Resource < MockModel
 
   virtual_properties :name_with_id
 
+  def self.recent
+    all.last(5)
+  end
+
   def friend
     self.class.last
   end
@@ -42,7 +46,8 @@ class App < Sinatra::Base
   set :restful_api_adapter, MockModelRestfulApi
 
   restful_api :resources do
-    member { get :friend }
+    member      { get :friend }
+    collection  { get :recent }
   end
 
   not_found do

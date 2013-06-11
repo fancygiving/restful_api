@@ -23,7 +23,7 @@ module Sinatra
               data = api.get_id(self.params[:id]).send(action)
 
               if data.is_a? api.resource
-                api.read_instance(data)
+                api.read_instance(data, include: self.params[:include])
               else
                 api.dump(data)
               end
@@ -36,7 +36,7 @@ module Sinatra
 
           api.tap do |api|
             app.send(method, "/api/v1/#{model_name}/#{route}") do
-              api.read_collection(api.resource.send(action))
+              api.read_collection(api.resource.send(action), include: self.params[:include])
             end
           end
         end

@@ -132,10 +132,18 @@ describe App do
 
   describe 'custom routes' do
 
-    it 'adds a member route' do
+    it 'has a member route' do
       ezekiel = Resource.create(name: 'Ezekiel')
       get "api/v1/resources/#{ezekiel.id}/friend"
       expect(response_body).to eq(ezekiel.friend.attributes)
+    end
+
+    it 'allows includes on collection routes' do
+      get "api/v1/resources/recent", {include: :nested_resources}
+      expected_results = Resource.recent.map do |resource|
+        resource_with_nested_resources(resource)
+      end
+      expect(response_body).to eq(expected_results)
     end
 
   end
