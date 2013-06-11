@@ -35,8 +35,6 @@ module RestfulApi
       super(id)
     end
 
-    private
-
     def include_root?
       Json.include_root_in_json
     end

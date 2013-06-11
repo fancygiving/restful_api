@@ -41,8 +41,6 @@ module RestfulApi
     def destroy(id)
     end
 
-    private
-
     def read_all(options={})
       read_collection(get_all, options)
     end

@@ -122,10 +122,22 @@ describe App do
     end
   end
 
-  it 'deletes a resource' do
-    david = Resource.create(name: 'David')
-    delete "api/v1/resources/#{david.id}"
-    expect(response_body).to eq(david.attributes)
+  describe 'deletes a resource' do
+    it 'deletes' do
+      david = Resource.create(name: 'David')
+      delete "api/v1/resources/#{david.id}"
+      expect(response_body).to eq(david.attributes)
+    end
+  end
+
+  describe 'custom routes' do
+
+    it 'adds a member route' do
+      ezekiel = Resource.create(name: 'Ezekiel')
+      get "api/v1/resources/#{ezekiel.id}/friend"
+      expect(response_body).to eq(ezekiel.friend.attributes)
+    end
+
   end
 
 end

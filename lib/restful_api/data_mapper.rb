@@ -25,18 +25,12 @@ module RestfulApi
       attrs
     end
 
-    private
-
     def to_hash(instance)
       if resource.respond_to?(:all_with_virtual)
         instance && instance.attributes_with_virtual.stringify_keys
       else
         instance && instance.attributes.stringify_keys
       end
-    end
-
-    def resource_name
-      @resource_name ||= resource.name.underscore
     end
 
     def get_all
@@ -65,6 +59,12 @@ module RestfulApi
 
     def build_instance
       resource.new(build_attributes)
+    end
+
+    private
+
+    def resource_name
+      @resource_name ||= resource.name.underscore
     end
 
     def build_attributes

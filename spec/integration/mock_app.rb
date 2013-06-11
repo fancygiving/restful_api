@@ -17,6 +17,10 @@ class Resource < MockModel
 
   virtual_properties :name_with_id
 
+  def friend
+    self.class.last
+  end
+
   def name_with_id
     "#{id}|#{name}"
   end
@@ -37,7 +41,9 @@ class App < Sinatra::Base
   set :environment, :production
   set :restful_api_adapter, MockModelRestfulApi
 
-  restful_api :resources
+  restful_api :resources do
+    member { get :friend }
+  end
 
   not_found do
     "404: NOT FOUND"

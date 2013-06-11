@@ -1,6 +1,6 @@
 require_relative '../restful_api'
 require_relative 'restful_api/helpers'
-require_relative 'restful_api/route_builder'
+require_relative 'restful_api/routes'
 
 module Sinatra
   module RestfulApi
@@ -8,8 +8,8 @@ module Sinatra
       app.helpers Helpers
     end
 
-    def restful_api(name)
-      RouteBuilder.new(name, self).build_restful_routes!
+    def restful_api(name, &block)
+      Routes.draw(name, self, &block)
     end
   end
 
