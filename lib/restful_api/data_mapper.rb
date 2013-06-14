@@ -33,8 +33,11 @@ module RestfulApi
       end
     end
 
-    def get_all
-      resource.all.to_a
+    def get_all(offset, limit)
+      options = {}
+      options[:offset] = offset if offset
+      options[:limit] = limit if limit
+      resource.all(options).to_a
     end
 
     def get_where(conditions)

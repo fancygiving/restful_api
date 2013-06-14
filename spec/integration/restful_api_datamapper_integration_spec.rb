@@ -104,4 +104,12 @@ describe RestfulApi::DataMapper do
     expect(api.destroy(person.id)).to eq(person.attributes_with_virtual.stringify_keys)
   end
 
+  it 'takes a per_page limit' do
+    expect(api.read(:all, page: 0, per_page: 5).count).to eq(5)
+  end
+
+  it 'takes a page number' do
+    expect(api.read(:all, page: 1, per_page: (Person.count - 1)).count).to eq(1)
+  end
+
 end

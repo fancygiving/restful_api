@@ -42,7 +42,8 @@ module RestfulApi
     end
 
     def read_all(options={})
-      read_collection(get_all, options)
+      offset, limit = offset_and_limit(options[:page], options[:per_page])
+      read_collection(get_all(offset, limit), options)
     end
 
     def read_where(conditions, options={})
@@ -59,7 +60,7 @@ module RestfulApi
       end
     end
 
-    def get_all
+    def get_all(offset, limit)
     end
 
     def get_first
@@ -72,6 +73,14 @@ module RestfulApi
     end
 
     def to_hash(instance)
+    end
+
+    def offset_and_limit(page, per_page)
+      if page && per_page
+        [page * per_page, per_page]
+      else
+        [nil, nil]
+      end
     end
 
   end

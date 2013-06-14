@@ -27,7 +27,7 @@ class MockModelRestfulApi < RestfulApi::Base
     @resource_name ||= resource.model_name.underscore
   end
 
-  def get_all
+  def get_all(offset=nil, limit=nil)
     resource.all
   end
 
