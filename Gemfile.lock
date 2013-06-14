@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    restful_api (0.2.1)
+    restful_api (0.2.3)
       activesupport
       multi_json
 

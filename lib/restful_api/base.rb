@@ -77,7 +77,7 @@ module RestfulApi
 
     def offset_and_limit(page, per_page)
       if page && per_page
-        [page * per_page, per_page]
+        [page.to_i * per_page.to_i, per_page.to_i]
       else
         [nil, nil]
       end

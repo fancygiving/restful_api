@@ -71,6 +71,16 @@ describe App do
       expect(response_body).to eq(Resource.all.map(&:attributes))
     end
 
+    it 'returns a limited number of records' do
+      get "api/v1/resources", {page: 0, per_page: 5}
+      expect(response_body.count).to eq(5)
+    end
+
+    it 'returns the requested page' do
+      get "api/v1/resources", {page: 1, per_page: Resource.count - 1}
+      expect(response_body.count).to eq(1)
+    end
+
     it 'with conditions' do
       get "api/v1/resources", {name: 'Jehoshaphat'}
       expect(response_body).to include(jehoshaphat.attributes)

@@ -54,6 +54,11 @@ class App < Sinatra::Base
     "404: NOT FOUND"
   end
 
+  error do
+    error = env['sinatra.error']
+    "#{error.message}\n#{error.backtrace.join("\n")}"
+  end
+
   # start the server if ruby file executed directly
   # allows for manual testing
   run! if app_file == $0

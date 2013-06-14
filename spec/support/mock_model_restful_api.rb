@@ -28,7 +28,11 @@ class MockModelRestfulApi < RestfulApi::Base
   end
 
   def get_all(offset=nil, limit=nil)
-    resource.all
+    if offset && limit
+      resource.all[offset...offset + limit]
+    else
+      resource.all
+    end
   end
 
   def get_where(conditions)
