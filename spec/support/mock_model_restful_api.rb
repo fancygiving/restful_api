@@ -35,7 +35,7 @@ class MockModelRestfulApi < RestfulApi::Base
     end
   end
 
-  def get_where(conditions)
+  def get_where(conditions, offset=nil, limit=nil)
     collection = get_all
 
     conditions.each do |k, v|

@@ -47,7 +47,8 @@ module RestfulApi
     end
 
     def read_where(conditions, options={})
-      read_collection(get_where(conditions), options)
+      offset, limit = offset_and_limit(options[:page], options[:per_page])
+      read_collection(get_where(conditions, offset, limit), options)
     end
 
     def get_instance(id)

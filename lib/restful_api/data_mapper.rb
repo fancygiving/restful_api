@@ -40,7 +40,11 @@ module RestfulApi
       resource.all(options).to_a
     end
 
-    def get_where(conditions)
+    def get_where(conditions, offset=nil, limit=nil)
+      if offset && limit
+        conditions = conditions.merge(offset: offset, limit: limit)
+      end
+
       if resource.respond_to?(:all_with_virtual)
         resource.all_with_virtual(conditions).to_a
       else
