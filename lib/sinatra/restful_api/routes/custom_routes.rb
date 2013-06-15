@@ -36,9 +36,8 @@ module Sinatra
 
           api.tap do |api|
             app.send(method, "/api/v1/#{model_name}/#{route}") do
-              options     = api.offset_and_limit(params[:page], params[:per_page])
-              collection  = api.resource.send(action, *options)
-              api.read_collection(collection, include: self.params[:include])
+              options = api.read_options(params)
+              api.read_collection(api.resource.send(action, options), options.include)
             end
           end
         end

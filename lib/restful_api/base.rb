@@ -19,15 +19,19 @@ module RestfulApi
     end
 
     def read(id, options={})
-      options = ReadOptions.new(options)
+      options = read_options(options)
 
       if id.is_a? Hash
         read_where(id, options)
       elsif id == :all
         read_all(options)
       else
-        read_instance(get_instance(id), options.options)
+        read_instance(get_instance(id), options.include)
       end
+    end
+
+    def read_options(hash)
+      ReadOptions.new(hash)
     end
 
     def read_collection(collection, options={})
@@ -46,11 +50,11 @@ module RestfulApi
     end
 
     def read_all(options)
-      read_collection(get_all(options), options.options)
+      read_collection(get_all(options), options.include)
     end
 
     def read_where(conditions, options={})
-      read_collection(get_where(conditions, options), options.options)
+      read_collection(get_where(conditions, options), options.include)
     end
 
     def get_instance(id)
@@ -80,10 +84,5 @@ module RestfulApi
 
     def to_hash(instance)
     end
-
-    def offset_and_limit(page, per_page)
-      ReadOptions.new(page: page, per_page: per_page).offset_and_limit
-    end
-
   end
 end

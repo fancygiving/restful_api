@@ -38,7 +38,7 @@ module RestfulApi
     end
 
     def get_where(conditions, options)
-      conditions = conditions.merge(options.datamapper_options)
+      conditions = conditions.merge(options.data_mapper_options)
 
       if resource.respond_to?(:all_with_virtual)
         resource.all_with_virtual(conditions).to_a

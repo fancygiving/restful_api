@@ -28,8 +28,8 @@ class MockModelRestfulApi < RestfulApi::Base
   end
 
   def get_all(options=nil)
-    if options && options.offset && options.limit
-      resource.all[options.offset...options.offset + options.limit]
+    if options
+      resource.all[options.mock_model_options]
     else
       resource.all
     end

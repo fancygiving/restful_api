@@ -1,19 +1,21 @@
 module RestfulApi
   class ReadOptions
-    attr_reader :options, :page, :per_page, :order
+    attr_reader :options, :include, :page, :per_page, :order
 
-    def initialize(options={})
-      @options = options
-      @page = options[:page]
+    def initialize(hash={})
+      @options  = hash.with_indifferent_access
+      @include  = options.slice(:include)
+      @page     = options[:page]
       @per_page = options[:per_page]
-      @order = options[:order]
+      @order    = options[:order]
     end
 
-    def ordering
-      offset_and_limit + [order]
+    def mock_model_options
+      return (0..-1) unless offset.present? && limit.present?
+      (offset...offset + limit)
     end
 
-    def datamapper_options
+    def data_mapper_options
       {}.merge(datamapper_order).merge(offset_and_limit_options)
     end
 
@@ -49,10 +51,6 @@ module RestfulApi
       if page && per_page
         per_page.to_i
       end
-    end
-
-    def offset_and_limit
-      [offset, limit]
     end
   end
 end
