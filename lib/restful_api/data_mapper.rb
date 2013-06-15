@@ -33,19 +33,12 @@ module RestfulApi
       end
     end
 
-    def get_all(offset, limit, order)
-      get_where({}, offset, limit, order)
+    def get_all(options)
+      get_where({}, options)
     end
 
-    def get_where(conditions, offset=nil, limit=nil, order=nil)
-      if order
-        order_direction, order_field = order.to_s.reverse.split('_', 2).map(&:reverse)
-        conditions = conditions.merge(order: [order_field.to_sym.send(order_direction)])
-      end
-
-      if offset && limit
-        conditions = conditions.merge(offset: offset, limit: limit)
-      end
+    def get_where(conditions, options)
+      conditions = conditions.merge(options.datamapper_options)
 
       if resource.respond_to?(:all_with_virtual)
         resource.all_with_virtual(conditions).to_a

@@ -27,15 +27,15 @@ class MockModelRestfulApi < RestfulApi::Base
     @resource_name ||= resource.model_name.underscore
   end
 
-  def get_all(offset=nil, limit=nil, order=nil)
-    if offset && limit
-      resource.all[offset...offset + limit]
+  def get_all(options=nil)
+    if options && options.offset && options.limit
+      resource.all[options.offset...options.offset + options.limit]
     else
       resource.all
     end
   end
 
-  def get_where(conditions, offset=nil, limit=nil, order=nil)
+  def get_where(conditions, options={})
     collection = get_all
 
     conditions.each do |k, v|

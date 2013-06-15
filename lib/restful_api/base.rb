@@ -1,3 +1,5 @@
+require_relative 'read_options'
+
 module RestfulApi
   class NotFoundError < StandardError; end
   class InvalidAttributesError < StandardError; end
@@ -17,12 +19,14 @@ module RestfulApi
     end
 
     def read(id, options={})
+      options = ReadOptions.new(options)
+
       if id.is_a? Hash
         read_where(id, options)
       elsif id == :all
         read_all(options)
       else
-        read_instance(get_instance(id), options)
+        read_instance(get_instance(id), options.options)
       end
     end
 
@@ -41,14 +45,12 @@ module RestfulApi
     def destroy(id)
     end
 
-    def read_all(options={})
-      offset, limit = offset_and_limit(options[:page], options[:per_page])
-      read_collection(get_all(offset, limit, options[:order]), options)
+    def read_all(options)
+      read_collection(get_all(options), options.options)
     end
 
     def read_where(conditions, options={})
-      offset, limit = offset_and_limit(options[:page], options[:per_page])
-      read_collection(get_where(conditions, offset, limit, options[:order]), options)
+      read_collection(get_where(conditions, options), options.options)
     end
 
     def get_instance(id)
@@ -61,7 +63,10 @@ module RestfulApi
       end
     end
 
-    def get_all(offset, limit, order)
+    def get_all(options)
+    end
+
+    def get_where(options)
     end
 
     def get_first
@@ -77,11 +82,7 @@ module RestfulApi
     end
 
     def offset_and_limit(page, per_page)
-      if page && per_page
-        [page.to_i * per_page.to_i, per_page.to_i]
-      else
-        [nil, nil]
-      end
+      ReadOptions.new(page: page, per_page: per_page).offset_and_limit
     end
 
   end
