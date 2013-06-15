@@ -17,7 +17,7 @@ class Resource < MockModel
 
   virtual_properties :name_with_id
 
-  def self.recent(options={})
+  def self.recent(offset=nil, limit=nil)
     all.last(5)
   end
 

@@ -43,12 +43,12 @@ module RestfulApi
 
     def read_all(options={})
       offset, limit = offset_and_limit(options[:page], options[:per_page])
-      read_collection(get_all(offset, limit), options)
+      read_collection(get_all(offset, limit, options[:order]), options)
     end
 
     def read_where(conditions, options={})
       offset, limit = offset_and_limit(options[:page], options[:per_page])
-      read_collection(get_where(conditions, offset, limit), options)
+      read_collection(get_where(conditions, offset, limit, options[:order]), options)
     end
 
     def get_instance(id)
@@ -61,7 +61,7 @@ module RestfulApi
       end
     end
 
-    def get_all(offset, limit)
+    def get_all(offset, limit, order)
     end
 
     def get_first

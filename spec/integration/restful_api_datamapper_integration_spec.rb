@@ -74,6 +74,18 @@ describe RestfulApi::DataMapper do
       .to include(person_attributes_with_things(dave))
   end
 
+  it 'returns a collection in order by a given field' do
+    abel = Person.create(name: 'A A A')
+    collection = api.read(:all, {order: :name_asc})
+    expect(collection.first['name']).to be < collection.last['name']
+  end
+
+  it 'returns a collection in reverse order by a given field' do
+    abel = Person.create(name: 'A A')
+    collection = api.read(:all, {order: :name_desc})
+    expect(collection.last['name']).to eq('A A')
+  end
+
   it 'updates a partner in the database' do
     brian = Person.create!(name: 'Brian')
     api.update(brian.id, name: "WoopWoopEternalRainClouds")

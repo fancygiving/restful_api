@@ -33,14 +33,16 @@ module RestfulApi
       end
     end
 
-    def get_all(offset, limit)
-      options = {}
-      options[:offset] = offset if offset
-      options[:limit] = limit if limit
-      resource.all(options).to_a
+    def get_all(offset, limit, order)
+      get_where({}, offset, limit, order)
     end
 
-    def get_where(conditions, offset=nil, limit=nil)
+    def get_where(conditions, offset=nil, limit=nil, order=nil)
+      if order
+        order_direction, order_field = order.to_s.reverse.split('_', 2).map(&:reverse)
+        conditions = conditions.merge(order: [order_field.to_sym.send(order_direction)])
+      end
+
       if offset && limit
         conditions = conditions.merge(offset: offset, limit: limit)
       end

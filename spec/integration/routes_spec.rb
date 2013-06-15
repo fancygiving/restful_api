@@ -17,11 +17,11 @@ describe Sinatra::RestfulApi::Routes do
   end
 
   class Resource
-    def self.tomorrow_resources(options={})
+    def self.tomorrow_resources(offset=nil, limit=nil)
       all
     end
 
-    def self.top_ten(options={})
+    def self.top_ten(offset=nil, limit=nil)
       all
     end
 
