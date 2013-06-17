@@ -7,6 +7,10 @@ module Sinatra
     end
 
     module Helpers
+      def restful_api_for(model_name, settings=self.settings)
+        ApiFactory.new(model_name, settings).build_restful_api!
+      end
+
       def read_conditions(resource)
         conditions = params.except('include', 'page', 'per_page', 'order')
         conditions_parser.parse(conditions, resource)
