@@ -59,7 +59,7 @@ module Sinatra
         def build_read_collection_route!
           api.tap do |api|
             app.get "/api/v1/#{model_name}" do
-              options = params.slice('include', 'page', 'per_page').to_options
+              options = params.slice('include', 'page', 'per_page', 'order').to_options
               api.read(read_conditions(api.resource), options)
             end
           end

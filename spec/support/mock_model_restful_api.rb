@@ -29,7 +29,12 @@ class MockModelRestfulApi < RestfulApi::Base
 
   def get_all(options=nil)
     if options
-      resource.all[options.mock_model_options]
+      resources = resource.all[options.mock_model_options]
+      if options.order
+        resources.sort_by { |resource| resource.send(options.order_field) }
+      else
+        resources
+      end
     else
       resource.all
     end

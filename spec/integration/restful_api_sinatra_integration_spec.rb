@@ -6,10 +6,21 @@ describe App do
 
   alias :app :subject
 
-  def response_body
+  def load_json_body
     MultiJson.load(last_response.body)
   rescue MultiJson::LoadError
     last_response.body
+  end
+
+  def response_body
+    case body = load_json_body
+    when Array
+      body.map(&:with_indifferent_access)
+    when Hash
+      body.with_indifferent_access
+    else
+      body
+    end
   end
 
   def resource_with_nested_resources(resource)
@@ -79,6 +90,12 @@ describe App do
     it 'returns the requested page' do
       get "api/v1/resources", {page: 1, per_page: Resource.count - 1}
       expect(response_body.count).to eq(1)
+    end
+
+    it 'returns the resources in order' do
+      get "api/v1/resources", {order: :name_asc}
+      expect(response_body.first[:name]).to be < response_body.last[:name]
+      expect(response_body[1][:name]).to be < response_body[-2][:name]
     end
 
     it 'with conditions' do

@@ -10,11 +10,6 @@ module RestfulApi
       @order    = options[:order]
     end
 
-    def mock_model_options
-      return (0..-1) unless offset.present? && limit.present?
-      (offset...offset + limit)
-    end
-
     def data_mapper_options
       {}.merge(datamapper_order).merge(offset_and_limit_options)
     end

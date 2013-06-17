@@ -8,7 +8,7 @@ module Sinatra
 
     module Helpers
       def read_conditions(resource)
-        conditions = params.except('include', 'page', 'per_page')
+        conditions = params.except('include', 'page', 'per_page', 'order')
         conditions_parser.parse(conditions, resource)
       end
 
