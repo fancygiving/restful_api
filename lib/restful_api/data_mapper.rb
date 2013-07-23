@@ -41,9 +41,9 @@ module RestfulApi
       conditions = conditions.merge(options.data_mapper_options)
 
       if resource.respond_to?(:all_with_virtual)
-        resource.all_with_virtual(conditions).to_a
+        resource.all_with_virtual(conditions)
       else
-        resource.all(conditions).to_a
+        resource.all(conditions)
       end
     end
 
