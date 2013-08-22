@@ -74,7 +74,7 @@ module RestfulApi
     end
 
     def default_properties
-      Hash[resource.properties.map { |property| [property.name, nil] }]
+      Hash[resource.properties.to_a.map! { |property| [property.name, nil] }]
     end
   end
 end

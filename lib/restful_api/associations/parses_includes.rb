@@ -18,7 +18,7 @@ module RestfulApi
       private
 
       def parse_includes(instance, associations)
-        associations.map do |association|
+        associations.map! do |association|
           parse_include(instance, association)
         end
       end

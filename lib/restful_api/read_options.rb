@@ -33,7 +33,7 @@ module RestfulApi
     end
 
     def order_direction_and_field
-      order.to_s.reverse.split('_', 2).map(&:reverse)
+      order.to_s.reverse.split('_', 2).map!(&:reverse)
     end
 
     def offset
