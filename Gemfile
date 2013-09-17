@@ -8,6 +8,7 @@ group :development do
   gem 'sinatra',              '1.4.2'
   gem 'supermodel',           '0.1.4'
   gem 'redis',                '2.2.2'
+  gem 'dalli',                '2.6.4'
 
   gem 'rspec',      '2.14.1'
   gem 'rack-test',  '0.6.2'

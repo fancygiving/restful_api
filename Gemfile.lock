@@ -17,6 +17,7 @@ GEM
     bcrypt-ruby (3.0.1)
     bcrypt-ruby (3.0.1-java)
     builder (2.1.2)
+    dalli (2.6.4)
     datamapper (1.2.0)
       dm-aggregates (~> 1.2.0)
       dm-constraints (~> 1.2.0)
@@ -98,6 +99,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  dalli (= 2.6.4)
   datamapper (= 1.2.0)
   dm-redis-adapter (= 0.8.2)
   rack-test (= 0.6.2)
