@@ -4,7 +4,7 @@ module RestfulApi
 
     def initialize(hash={})
       @options  = hash.with_indifferent_access
-      @include  = options.slice(:include)
+      @include  = options.slice(:include, :cache)
       @page     = options[:page]
       @per_page = options[:per_page]
       @order    = options[:order]

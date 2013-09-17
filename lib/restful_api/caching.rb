@@ -9,7 +9,7 @@ module RestfulApi
     end
 
     def read_instance(instance, options={})
-      if cache_results? && cache_key = read_instance_cache_key(instance, options)
+      if cache_results?(options) && cache_key = read_instance_cache_key(instance, options)
         cache.fetch(cache_key) { super }
       else
         super
@@ -18,8 +18,9 @@ module RestfulApi
 
     private
 
-    def cache_results?
-      cache.present?
+    def cache_results?(options={})
+      cache_option = options[:cache].nil? ? true : options[:cache]
+      cache_option && cache.present?
     end
 
     def read_instance_cache_key(instance, options)
