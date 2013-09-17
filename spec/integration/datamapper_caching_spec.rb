@@ -33,4 +33,12 @@ describe 'RestfulApi::DataMapper Caching' do
       api.read(dave.id, cache: false)
     end
   end
+
+  describe '#update' do
+    it 'returns a fresh copy of the updated resource' do
+      expect(cache).to_not receive(:cache_store)
+      response = api.update(dave.id, name: "WoopWoopEternalRainClouds")
+      expect(response['name']).to eq("WoopWoopEternalRainClouds")
+    end
+  end
 end

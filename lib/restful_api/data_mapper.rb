@@ -1,7 +1,7 @@
 module RestfulApi
   class DataMapper < RestfulApi::Base
     def create(attrs)
-      read_instance(resource.create(attrs.symbolize_keys))
+      read_instance(resource.create(attrs.symbolize_keys), cache: false)
     rescue ArgumentError => e
       raise RestfulApi::InvalidAttributesError, e.message
     end
@@ -11,7 +11,7 @@ module RestfulApi
 
       if instance
         instance.update(attrs.symbolize_keys)
-        read(id)
+        read(id, cache: false)
       else
         raise RestfulApi::NotFoundError, 'Resource not found'
       end
