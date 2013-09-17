@@ -9,6 +9,6 @@ group :development do
   gem 'supermodel',           '0.1.4'
   gem 'redis',                '2.2.2'
 
-  gem 'rspec',      '2.13.0'
+  gem 'rspec',      '2.14.1'
   gem 'rack-test',  '0.6.2'
 end
