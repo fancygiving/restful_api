@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gemspec
 
-group :development do
+group :development, :test do
   gem 'datamapper',           '1.2.0'
   gem 'dm-redis-adapter',     '0.8.2'
   gem 'sinatra',              '1.4.2'
