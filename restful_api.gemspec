@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name          = 'restful_api'
-  s.version       = '0.2.13'
+  s.version       = '0.2.14'
   s.date          = '2014-01-22'
   s.summary       = "Create a RESTful API for a resource in one line."
   s.description   = "Create a RESTful API for a resource in one line."

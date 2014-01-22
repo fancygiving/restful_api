@@ -26,14 +26,12 @@ module RestfulApi
     end
 
     def read_collection_with_associations(collection, options={})
-      if collection
-        if options
-          collection.map do |instance|
-            read_instance(instance, options)
-          end
-        else
-          read_collection_without_associations(collection)
+      if options
+        collection.map do |instance|
+          read_instance(instance, options)
         end
+      else
+        read_collection_without_associations(collection)
       end
     end
 
