@@ -16,8 +16,34 @@ module Sinatra
         end
 
         def member(&block)
-          method, route, action = instance_exec(&block)
+          @route_type = :member
+          instance_exec(&block)
+        end
 
+        def collection(&block)
+          @route_type = :collection
+          instance_exec(&block)
+        end
+
+        def get(route, options={})
+          action = options[:action] || route
+          case @route_type
+            when :collection then collection_route(:get, route, action)
+            when :member then member_route(:get, route, action)
+            else raise "Wrong route description. Should be collection or member"
+          end
+        end
+        
+        def collection_route(method, route, action)
+          api.tap do |api|
+            app.send(method, "/api/v1/#{model_name}/#{route}") do
+              options = api.read_options(params)
+              api.read_collection(api.resource.send(action, options), options.include)
+            end
+          end
+        end
+        
+        def member_route(method, route, action)
           api.tap do |api|
             app.send(method, "/api/v1/#{model_name}/:id/#{route}") do
               data = api.get_id(self.params[:id]).send(action)
@@ -30,22 +56,7 @@ module Sinatra
             end
           end
         end
-
-        def collection(&block)
-          method, route, action = instance_exec(&block)
-
-          api.tap do |api|
-            app.send(method, "/api/v1/#{model_name}/#{route}") do
-              options = api.read_options(params)
-              api.read_collection(api.resource.send(action, options), options.include)
-            end
-          end
-        end
-
-        def get(route, options={})
-          action = options[:action] || route
-          [:get, route, action]
-        end
+        
       end
     end
   end
