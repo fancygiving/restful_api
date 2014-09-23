@@ -46,8 +46,12 @@ module Sinatra
         def member_route(method, route, action)
           api.tap do |api|
             app.send(method, "/api/v1/#{model_name}/:id/#{route}") do
-              data = api.get_id(self.params[:id]).send(action)
-
+              options = api.read_options(params)
+              begin
+                data = api.get_id(self.params[:id]).send(action, options)
+              rescue => e
+                raise Sinatra::NotFound, "404 NOT FOUND: Record with id #{params[:id]} not found"
+              end
               if data.is_a? api.resource
                 api.read_instance(data, include: self.params[:include])
               else
