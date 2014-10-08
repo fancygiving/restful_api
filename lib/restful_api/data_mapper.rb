@@ -48,7 +48,7 @@ module RestfulApi
     end
 
     def count(conditions)
-      resource.count(conditions)
+      resource.count(conditions == :all ? nil : conditions)
     end
     
     def get_first
