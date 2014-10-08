@@ -47,6 +47,10 @@ module RestfulApi
       end
     end
 
+    def count(conditions)
+      resource.count(conditions)
+    end
+    
     def get_first
       resource.first
     end

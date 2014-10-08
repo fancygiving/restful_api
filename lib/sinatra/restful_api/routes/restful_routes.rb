@@ -15,6 +15,7 @@ module Sinatra
           build_new_route!
           build_read_instance_route!
           build_read_collection_route!
+          build_count_collection_route!
           build_update_route!
           build_delete_route!
           app
@@ -65,6 +66,15 @@ module Sinatra
           end
         end
 
+        def build_count_collection_route!
+          api.tap do |api|
+            app.get "/api/v1/#{model_name}/count" do
+              conditions = params.except('include', 'page', 'per_page', 'order')
+              MultiJson.dump({count: api.count(DefaultConditionsParser.parse(conditions, api.resource))})
+            end
+          end
+        end
+        
         def build_update_route!
           api.tap do |api|
             app.put "/api/v1/#{model_name}/:id" do
